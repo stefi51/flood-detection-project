@@ -1,0 +1,54 @@
+{
+	// Use IntelliSense to learn about possible Node.js debug attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug - backend",
+			"program": "${workspaceRoot}/backend/node_modules/moleculer/bin/moleculer-runner.js",
+			"cwd": "${workspaceRoot}/backend",
+			"args": [
+				"services"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Jest - backend",
+			"program": "${workspaceRoot}/backend/node_modules/jest-cli/bin/jest.js",
+			"args": [
+				"--runInBand"
+			],
+			"cwd": "${workspaceRoot}/backend",
+			"runtimeArgs": [
+				"--nolazy"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug - device",
+			"program": "${workspaceRoot}/device/node_modules/moleculer/bin/moleculer-runner.js",
+			"cwd": "${workspaceRoot}/device",
+			"args": [
+				"services"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Jest",
+			"program": "${workspaceRoot}/device/node_modules/jest-cli/bin/jest.js",
+			"args": [
+				"--runInBand"
+			],
+			"cwd": "${workspaceRoot}/device",
+			"runtimeArgs": [
+				"--nolazy"
+			]
+		}
+	]
+}

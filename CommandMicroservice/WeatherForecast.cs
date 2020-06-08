@@ -1,6 +1,6 @@
 using System;
 
-namespace DeviceMicroservice
+namespace CommandMicroservice
 {
     public class WeatherForecast
     {

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AnalyticsMicroservice.Models;
+using AnalyticsMicroservice.RefinedDataRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace DataMicroservice
+namespace AnalyticsMicroservice
 {
     public class Startup
     {
@@ -24,6 +26,8 @@ namespace DataMicroservice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RefinedDataDatabaseConfiguration>(Configuration.GetSection("RefinedDatastoreDatabaseSettings"));
+            services.AddTransient<IRefinedDataRepository,RefinedDataRepository.RefinedDataRepository>();
             services.AddControllers();
         }
 

@@ -1,15 +1,44 @@
 version: '3.4'
 
 services:
-  datamicroservice:
-    image: ${DOCKER_REGISTRY-}datamicroservice
-    build:
-      context: .
-      dockerfile: DataMicroservice/Dockerfile
-
+  rabbitmq:
+        container_name: rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=password        
+        image: rabbitmq:3-management
   devicemicroservice:
     image: ${DOCKER_REGISTRY-}devicemicroservice
     build:
       context: .
       dockerfile: DeviceMicroservice/Dockerfile
+    depends_on:
+           - rabbitmq
+  analyticsmicroservice:
+    image: ${DOCKER_REGISTRY-}analyticsmicroservice
+    build:
+      context: .
+      dockerfile: AnalyticsMicroservice/Dockerfile
+    depends_on:
+         - mongo    
+  commandmicroservice:
+    image: ${DOCKER_REGISTRY-}commandmicroservice
+    build:
+      context: .
+      dockerfile: CommandMicroservice/Dockerfile
+    depends_on:
+            - rabbitmq
+  mongo:
+      image: mongo:latest
+      container_name: mongo
+      ports:
+          - 27017:27017
+      volumes:
+        - mongodata:/data/db
+
+volumes:
+  mongodata:
 

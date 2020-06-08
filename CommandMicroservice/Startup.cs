@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DeviceMicroservice.CommandReceiver;
-using DeviceMicroservice.Repositories;
+using CommandMicroservice.CommandSender;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-
-
-
-namespace DeviceMicroservice
+namespace CommandMicroservice
 {
     public class Startup
     {
@@ -29,20 +25,9 @@ namespace DeviceMicroservice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            services.AddTransient<IDataRepository, DataRepository>();
-           // services.AddTransient<ISensors, Sensors>();
             services.AddControllers();
-            // services.AddHostedService<Sensors>();
             services.Configure<RabbitMQConfiguration>(Configuration.GetSection("RabbitMq"));
-
-
-            services.AddSingleton<Sensors>();
-            services.AddSingleton<IHostedService, Sensors>(
-                serviceProvider => serviceProvider.GetService<Sensors>());
-
-            services.AddHostedService<CommandReceiver.CommandReceiver>();
-
+            services.AddTransient<ICommandSender,CommandSender.CommandSender>();
 
         }
 

@@ -1,11 +1,18 @@
 version: '3.4'
 
 services:
-  datamicroservice:
+  analyticsmicroservice:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
+
+  commandmicroservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
 
   devicemicroservice:
     environment:

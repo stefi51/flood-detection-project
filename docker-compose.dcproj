@@ -3,10 +3,10 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>aa58f59c-1d84-49fe-95f1-f47051307fbb</ProjectGuid>
+    <ProjectGuid>7e642503-f162-4e65-a1d0-d0e01238cd73</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
-    <DockerServiceName>datamicroservice</DockerServiceName>
+    <DockerServiceName>analyticsmicroservice</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

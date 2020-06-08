@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:51080",
+      "applicationUrl": "http://localhost:54731",
       "sslPort": 0
     }
   },
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DataMicroservice": {
+    "AnalyticsMicroservice": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

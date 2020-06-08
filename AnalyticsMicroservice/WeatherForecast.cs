@@ -1,6 +1,6 @@
 using System;
 
-namespace DataMicroservice
+namespace AnalyticsMicroservice
 {
     public class WeatherForecast
     {

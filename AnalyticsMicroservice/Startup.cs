@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AnalyticsMicroservice.DataSubscriber;
 using AnalyticsMicroservice.Models;
 using AnalyticsMicroservice.RefinedDataRepository;
 using Microsoft.AspNetCore.Builder;
@@ -28,6 +29,8 @@ namespace AnalyticsMicroservice
         {
             services.Configure<RefinedDataDatabaseConfiguration>(Configuration.GetSection("RefinedDatastoreDatabaseSettings"));
             services.AddTransient<IRefinedDataRepository,RefinedDataRepository.RefinedDataRepository>();
+            services.Configure<RabbitMQConfiguration>(Configuration.GetSection("RabbitMq"));
+            services.AddHostedService<DataSubscriber.DataSubscriber>();
             services.AddControllers();
         }
 

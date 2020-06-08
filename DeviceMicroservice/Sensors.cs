@@ -6,17 +6,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DeviceMicroservice.DataPublisher;
 
 namespace DeviceMicroservice
 {
     public class Sensors :BackgroundService
     {
         private IDataRepository d;
+        private IDataPublisher _dataPublisher;
         public int korak { get; set; }
-        public Sensors(IDataRepository id)
+        public Sensors(IDataPublisher dataPublisher,IDataRepository id)
         {
             d = id;
             korak = 5;
+            _dataPublisher = dataPublisher;
         }
         public void setKorak(int k)
         {
@@ -36,6 +39,7 @@ namespace DeviceMicroservice
                         FirstName = "mm2"
                     };
                     d.AddData(k);
+                    _dataPublisher.SendData(this.korak);
                     await Task.Delay(TimeSpan.FromSeconds(this.korak), stoppingToken);
 
                 }

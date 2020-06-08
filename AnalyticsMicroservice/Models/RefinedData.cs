@@ -13,6 +13,7 @@ namespace AnalyticsMicroservice.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public int Value { get; set; }
+        public  int Id2 { get; set; }
 
     }
 }

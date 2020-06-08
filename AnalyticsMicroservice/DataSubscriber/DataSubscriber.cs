@@ -1,19 +1,20 @@
-﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AnalyticsMicroservice.Models;
+using AnalyticsMicroservice.RefinedDataRepository;
 using Newtonsoft.Json;
-using System.Reflection;
 
-namespace DeviceMicroservice.CommandReceiver
+
+
+namespace AnalyticsMicroservice.DataSubscriber
 {
-    public class CommandReceiver: BackgroundService
+    public class DataSubscriber:BackgroundService
     {
         private IModel _channel;
         private IConnection _connection;
@@ -22,16 +23,16 @@ namespace DeviceMicroservice.CommandReceiver
         private readonly string _username;
         private readonly string _password;
         private readonly int _port;
-        private readonly Sensors _sensorsService;
-
-        public CommandReceiver(Sensors sensorsService, IOptions<RabbitMQConfiguration> rabbitMqOptions)
+        private IRefinedDataRepository refinedData;
+       
+        public DataSubscriber(IRefinedDataRepository refinedData,IOptions<RabbitMQConfiguration> rabbitMqOptions)
         {
             _hostname = rabbitMqOptions.Value.Hostname;
             _queueName = rabbitMqOptions.Value.QueueName;
             _username = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
             _port = rabbitMqOptions.Value.Port;
-            _sensorsService = sensorsService;
+            this.refinedData = refinedData;
             InitializeRabbitMqListener();
         }
 
@@ -103,7 +104,8 @@ namespace DeviceMicroservice.CommandReceiver
 
         private void HandleMessage(int updateCustomerFullNameModel)
         {
-            _sensorsService.setKorak(updateCustomerFullNameModel);
+            //_sensorsService.setKorak(updateCustomerFullNameModel);
+            refinedData.InsertData(new RefinedData(){Id2 = 2,Value = updateCustomerFullNameModel});
         }
     }
 }

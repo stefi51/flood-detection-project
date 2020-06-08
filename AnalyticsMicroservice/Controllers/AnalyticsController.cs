@@ -23,15 +23,9 @@ namespace AnalyticsMicroservice.Controllers
         }
 
         [HttpGet("")]
-        public ActionResult GetData()
+        public ActionResult<IEnumerable<RefinedData>> GetData()
         {
-            // return this.repository.GetAll();
-            this.repository.InsertData(new RefinedData()
-            {
-                Id = "15",
-                Value = 110
-            });
-            return Ok();
+            return this.repository.GetAll();
         }
 
 

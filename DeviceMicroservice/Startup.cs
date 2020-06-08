@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DeviceMicroservice.CommandReceiver;
+using DeviceMicroservice.DataPublisher;
 using DeviceMicroservice.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,12 +37,11 @@ namespace DeviceMicroservice
             // services.AddHostedService<Sensors>();
             services.Configure<RabbitMQConfiguration>(Configuration.GetSection("RabbitMq"));
 
-
+            services.AddTransient<IDataPublisher, DataPublisher.DataPublisher>();
             services.AddSingleton<Sensors>();
-            services.AddSingleton<IHostedService, Sensors>(
-                serviceProvider => serviceProvider.GetService<Sensors>());
-
+            services.AddSingleton<IHostedService, Sensors>(serviceProvider => serviceProvider.GetService<Sensors>());
             services.AddHostedService<CommandReceiver.CommandReceiver>();
+           
 
 
         }

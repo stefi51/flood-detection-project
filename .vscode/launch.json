@@ -18,6 +18,16 @@
 			"name": "Attach to Chrome",
 			"port": 9222,
 			"webRoot": "${workspaceRoot}/frontend"
-		}
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug data-microservice",
+			"program": "${workspaceRoot}/data-microservice/node_modules/moleculer/bin/moleculer-runner.js",
+			"cwd": "${workspaceRoot}/data-microservice",
+			"args": [
+				"services"
+			]
+		},
 	]
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CommandMicroservice.CommandSender;
-using Microsoft.AspNetCore.Http;
+﻿using CommandMicroservice.CommandSender;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandMicroservice.Controllers

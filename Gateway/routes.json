@@ -1,0 +1,10 @@
+{
+  "routes": [
+    {
+      "endpoint": "/command",
+      "destination": {
+        "path": "http://localhost:6001/api/command/"
+      }
+    }
+  ]
+}

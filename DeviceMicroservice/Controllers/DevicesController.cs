@@ -15,45 +15,49 @@ namespace DeviceMicroservice.Controllers
     [ApiController]
     public class DevicesController : ControllerBase
     {
-        private IDataRepository repository { get; set; }
-        private  Sensors sensor { get; set; }
+        private IDataRepository sensorsDataRepository;
+        private Sensors sensorsService;
       
-        public DevicesController(IDataRepository dataRepository, Sensors sens)
+        public DevicesController(IDataRepository dataRepository, Sensors sensors)
         {
-            this.repository = dataRepository;
-            this.sensor = sens;
-            //sensor.korak = 10;
-            
+            sensorsDataRepository = dataRepository;
+            sensorsService = sensors;
         }
    
 
 
         [HttpGet("")]
-        public ActionResult<IEnumerable<Data>> GetData()
+        //public ActionResult<IEnumerable<LiveMetaData>> GetData()
+        public ActionResult<LiveMetaData> GetData()
         {
-           return this.repository.getData();
-       }
 
-   
+            return sensorsService.GetMetaData();
+
+        }
+        
+        
         [HttpPost("")]
-        public ActionResult PostData(int d)
+        //[HttpPut("")]
+        public ActionResult ChangeTimeStep([FromBody]int newTimeStep)
         {
-            //this.repository.AddData(d);
-            this.sensor.setKorak(10);
+            this.sensorsService.ChangeTimeStep(newTimeStep);
             return Ok();
         }
 
-        [Route("/korak/{k}")]
-        [HttpGet]
-        public ActionResult Korak(String k)
-        {
-            // this.repository.PromeniKorak(Int32.Parse(k));
-             this.sensor.setKorak(10);
-            
-           // return this.repository.getData();
-            return Ok();
-       }
+    
+ 
+        
+        
+        
 
+       [Route("sensorData")]
+       // [HttpGet("getSensorData")]
+        public ActionResult<IEnumerable<SensorData>> GetAllData()
+        {
+            return sensorsDataRepository.GetData();
+        }
+       
+       
 
     }
 }

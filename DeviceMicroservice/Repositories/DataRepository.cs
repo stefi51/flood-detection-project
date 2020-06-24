@@ -8,8 +8,11 @@ namespace DeviceMicroservice.Repositories
 {
     public class DataRepository : IDataRepository
     {
-        private static List<Data> staticData = new List<Data>();
+        
+        private static List<SensorData> mData = new List<SensorData>();
+        
         public int korak = 5;
+        
         public void PromeniKorak(int k)
         {
             korak = k;
@@ -18,20 +21,21 @@ namespace DeviceMicroservice.Repositories
         {
             return korak;
         }
-
-        public void AddData(Data k)
+        
+        public void AddData(SensorData newmData)
         {
-            staticData.Add(k);
+            mData.Add(newmData);
         }
 
-        public List<Data> getData()
+        public List<SensorData> GetData()
         {
-            return staticData;
+            return mData;
         }
 
-        public void SetData(List<Data> list)
+        public void SetData(List<SensorData> mDataList)
         {
-            staticData = list;
+            mData =mDataList;
         }
+        
     }
 }

@@ -11,7 +11,7 @@ namespace DeviceMicroservice.Services
 {
     public class ReadService
     {
-        public List<Data> ReadCSVFile(string location)
+        public List<SensorData> ReadCSVFile(string location)
         {
             try
             {
@@ -19,7 +19,7 @@ namespace DeviceMicroservice.Services
                 using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.CurrentCulture))
                 {
                     csv.Configuration.RegisterClassMap<DataMap>();
-                    var records = csv.GetRecords<Data>().ToList();
+                    var records = csv.GetRecords<SensorData>().ToList();
                     return records;
                 }
             }

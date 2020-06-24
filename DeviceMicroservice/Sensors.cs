@@ -13,44 +13,75 @@ namespace DeviceMicroservice
 {
     public class Sensors :BackgroundService
     {
-        private IDataRepository d;
-        private IDataPublisher _dataPublisher;
+        private IDataRepository sensorDataRepo;
+        private IDataPublisher sensorDataPublisher;
+        private ReadService readService;
+      private CancellationTokenSource csource;
+        private bool turnedOn;
+        private int timeStep;
+        private LiveMetaData currentData;
         public int korak { get; set; }
-        public Sensors(IDataPublisher dataPublisher,IDataRepository id,ReadService rdS)
+        
+        public Sensors(IDataPublisher dataPublisher,IDataRepository iDataRepo,ReadService rdS)
         {
-            d = id;
-            korak = 5;
-            _dataPublisher = dataPublisher;
-            d.SetData(rdS.ReadCSVFile("./dataset.csv"));
+            sensorDataRepo = iDataRepo;
+            sensorDataPublisher= dataPublisher;
+            readService = rdS;
+            sensorDataRepo.SetData(readService.ReadCSVFile("./dataset.csv"));
+            turnedOn = true;
+            timeStep = 10;
+            currentData= new LiveMetaData(1, timeStep, DateTime.Now);
+            csource=new CancellationTokenSource();
+           // currentData.TimeStep = timeStep;
+           // currentData.StationId = 1;
+           // currentData.Threshold= DateTime.Now;
         }
-        public void setKorak(int k)
+        /*public void setKorak(int k)
         {
-            this.korak = k;
+            this.timeStep = k;
+        }*/
+
+        public void ChangeTimeStep(int newTimeStep)
+        {
+           
+            timeStep = newTimeStep;
+            csource.Cancel();
+            
+        }
+        
+
+        public LiveMetaData GetMetaData()
+        {
+            return currentData;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            int i = 0;
-            while (true)
+            
+            while (turnedOn)
             {
-                try
+                
+                foreach (var sensorData in sensorDataRepo.GetData())
                 {
-                    Data k = new Data()
+               
+                    try
                     {
-                        Id = this.korak,
-                        FirstName = "mm2"
-                    };
-                    d.AddData(k);
-                    _dataPublisher.SendData(this.korak);
-                    await Task.Delay(TimeSpan.FromSeconds(this.korak), stoppingToken);
+                        currentData.TimeStep = timeStep;
+                        currentData.StationId = sensorData.StationId;
+                        currentData.Threshold = DateTime.Now.Add(new System.TimeSpan(0, 0, 0, timeStep));
+                        sensorDataPublisher.SendData(timeStep);
+                        //dodati rest zahtev, za slanje
+                        await Task.Delay(TimeSpan.FromSeconds(timeStep), csource.Token);
+                    }
+                    catch (Exception e)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(timeStep), stoppingToken);
+                    }
+                    
+                }
 
-                }
-                catch (Exception ex)
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken);
-                }
-                i++;
             }
+            
         }
 
     

@@ -103,7 +103,8 @@ namespace DeviceMicroservice.CommandReceiver
 
         private void HandleMessage(int updateCustomerFullNameModel)
         {
-            _sensorsService.setKorak(updateCustomerFullNameModel);
+           // _sensorsService.setKorak(updateCustomerFullNameModel);
+           _sensorsService.ChangeTimeStep(updateCustomerFullNameModel);
         }
     }
 }

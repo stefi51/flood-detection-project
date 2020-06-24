@@ -8,11 +8,11 @@ namespace DeviceMicroservice.Repositories
 {
    public interface IDataRepository
     {
-        List<Data> getData();
-        public void AddData(Data k);
+        List<SensorData> GetData();
+        public void AddData(SensorData mData);
         public void PromeniKorak(int k);
         public int vratiKorak();
-        public void SetData(List<Data> list);
+        public void SetData(List<SensorData> mDataList);
 
     }
 }

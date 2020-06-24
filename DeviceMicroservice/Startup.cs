@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DeviceMicroservice.CommandReceiver;
 using DeviceMicroservice.DataPublisher;
 using DeviceMicroservice.Repositories;
+using DeviceMicroservice.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -41,9 +42,7 @@ namespace DeviceMicroservice
             services.AddSingleton<Sensors>();
             services.AddSingleton<IHostedService, Sensors>(serviceProvider => serviceProvider.GetService<Sensors>());
             services.AddHostedService<CommandReceiver.CommandReceiver>();
-           
-
-
+            services.AddSingleton<ReadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

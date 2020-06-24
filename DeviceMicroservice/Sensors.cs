@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviceMicroservice.DataPublisher;
+using DeviceMicroservice.Services;
 
 namespace DeviceMicroservice
 {
@@ -15,11 +16,12 @@ namespace DeviceMicroservice
         private IDataRepository d;
         private IDataPublisher _dataPublisher;
         public int korak { get; set; }
-        public Sensors(IDataPublisher dataPublisher,IDataRepository id)
+        public Sensors(IDataPublisher dataPublisher,IDataRepository id,ReadService rdS)
         {
             d = id;
             korak = 5;
             _dataPublisher = dataPublisher;
+            d.SetData(rdS.ReadCSVFile("./dataset.csv"));
         }
         public void setKorak(int k)
         {

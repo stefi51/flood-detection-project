@@ -8,19 +8,7 @@ namespace DeviceMicroservice.Repositories
 {
     public class DataRepository : IDataRepository
     {
-        static List<Data> staticData = new List<Data>()
-        {
-            new Data()
-            {
-                Id=10,
-                FirstName="mm"
-            },
-            new Data()
-            {
-                Id=11,
-                FirstName="ss"
-            }
-        };
+        private static List<Data> staticData = new List<Data>();
         public int korak = 5;
         public void PromeniKorak(int k)
         {
@@ -39,6 +27,11 @@ namespace DeviceMicroservice.Repositories
         public List<Data> getData()
         {
             return staticData;
+        }
+
+        public void SetData(List<Data> list)
+        {
+            staticData = list;
         }
     }
 }

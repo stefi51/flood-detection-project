@@ -12,6 +12,7 @@ namespace DeviceMicroservice.Repositories
         public void AddData(Data k);
         public void PromeniKorak(int k);
         public int vratiKorak();
+        public void SetData(List<Data> list);
 
     }
 }

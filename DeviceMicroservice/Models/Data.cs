@@ -9,6 +9,7 @@ namespace DeviceMicroservice.Models
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
+        public float K { get; set; }
              
     }
 }

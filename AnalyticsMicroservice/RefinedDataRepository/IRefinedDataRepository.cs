@@ -9,7 +9,7 @@ namespace AnalyticsMicroservice.RefinedDataRepository
     public interface IRefinedDataRepository
     {
         public List<RefinedData> GetAll();
-        public void InsertData(RefinedData k);
+        public void InsertData(RefinedData newData);
         
     }
 }

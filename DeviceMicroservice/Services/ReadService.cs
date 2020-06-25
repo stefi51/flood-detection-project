@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using CsvHelper;
 using DeviceMicroservice.Mappers;
-using DeviceMicroservice.Models;
+
+using SharedModels;
 
 namespace DeviceMicroservice.Services
 {

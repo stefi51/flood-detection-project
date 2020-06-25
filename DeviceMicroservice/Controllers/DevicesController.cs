@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using DeviceMicroservice.Models;
 using DeviceMicroservice.Repositories;
 using Microsoft.Extensions.Hosting;
+using SharedModels;
 
 namespace DeviceMicroservice.Controllers
 {

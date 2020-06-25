@@ -8,8 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using AnalyticsMicroservice.Models;
 using AnalyticsMicroservice.RefinedDataRepository;
+using AnalyticsMicroservice.AServices;
 using Newtonsoft.Json;
-
+using SharedModels;
 
 
 namespace AnalyticsMicroservice.DataSubscriber
@@ -23,16 +24,20 @@ namespace AnalyticsMicroservice.DataSubscriber
         private readonly string _username;
         private readonly string _password;
         private readonly int _port;
-        private IRefinedDataRepository refinedData;
+       // private IRefinedDataRepository refinedData;
+        private AnalyticsService analyticsService;
        
-        public DataSubscriber(IRefinedDataRepository refinedData,IOptions<RabbitMQConfiguration> rabbitMqOptions)
+        public DataSubscriber(IRefinedDataRepository refinedData,
+            IOptions<RabbitMQConfiguration> rabbitMqOptions,
+            AnalyticsService analyticsService)
         {
             _hostname = rabbitMqOptions.Value.Hostname;
             _queueName = rabbitMqOptions.Value.QueueName;
             _username = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
             _port = rabbitMqOptions.Value.Port;
-            this.refinedData = refinedData;
+            //this.refinedData = refinedData;
+            this.analyticsService = analyticsService;
             InitializeRabbitMqListener();
         }
 
@@ -66,9 +71,9 @@ namespace AnalyticsMicroservice.DataSubscriber
             consumer.Received += (ch, ea) =>
             {
                 var content = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var updateCustomerFullNameModel = JsonConvert.DeserializeObject<Int32>(content);
+                var newSensorData = JsonConvert.DeserializeObject<SensorData>(content);
 
-                HandleMessage(updateCustomerFullNameModel);
+                HandleMessage(newSensorData);
 
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
@@ -102,10 +107,12 @@ namespace AnalyticsMicroservice.DataSubscriber
             
         }
 
-        private void HandleMessage(int updateCustomerFullNameModel)
+        private void HandleMessage(SensorData newSensorData)
         {
             //_sensorsService.setKorak(updateCustomerFullNameModel);
-            refinedData.InsertData(new RefinedData(){Id2 = 2,Value = updateCustomerFullNameModel});
+           // refinedData.InsertData(new RefinedData(){Id2 = 2,Value = updateCustomerFullNameModel});
+           this.analyticsService.ProcessNewData(newSensorData);
+           
         }
     }
 }

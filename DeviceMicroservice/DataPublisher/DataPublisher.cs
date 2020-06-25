@@ -4,12 +4,13 @@ using DeviceMicroservice.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using SharedModels;
 
 namespace DeviceMicroservice.DataPublisher
 {
     public interface IDataPublisher
     {
-        void SendData(int sensorData);
+        void SendData(SensorData sensorData);
     }
     public class DataPublisher:IDataPublisher
     {
@@ -29,7 +30,7 @@ namespace DeviceMicroservice.DataPublisher
             
         }
         
-        public void SendData(int sensorData)
+        public void SendData(SensorData sensorData)
         {
             var factory = new ConnectionFactory() { HostName =_hostname, UserName = _username, Password = _password, Port=_port };
 
@@ -40,7 +41,6 @@ namespace DeviceMicroservice.DataPublisher
 
                 var json = JsonConvert.SerializeObject(sensorData);
                 var body = Encoding.UTF8.GetBytes(json);
-
                 channel.BasicPublish(exchange: "", routingKey: _queueName, basicProperties: null, body: body);
             }
         }

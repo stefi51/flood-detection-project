@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DeviceMicroservice.Models
+namespace SharedModels
 {
     public class SensorData
     {
-        public int Id { get; set; }
+        /*public int Id { get; set; }
         public string FirstName { get; set; }
-        public float K { get; set; }
+        public float K { get; set; }*/
         
         public double WaterFlow { get; set; }
         public double WaterLevel { get; set; }

@@ -2,6 +2,7 @@ using System;
 using CsvHelper.Configuration;
 using DeviceMicroservice.Models;
 using Newtonsoft.Json;
+using SharedModels;
 
 namespace DeviceMicroservice.Mappers
 {

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using SharedModels;
 
 namespace CommandMicroservice.CommandSender
 {
     public interface ICommandSender
     {
-        void SendCommand(int k);
+        void SendCommand(ICommand k);
     }
 
     public class CommandSender : ICommandSender
@@ -32,7 +33,7 @@ namespace CommandMicroservice.CommandSender
             
         }
 
-        public void SendCommand(int k)
+        public void SendCommand(ICommand k)
         {
             var factory = new ConnectionFactory() { HostName =_hostname, UserName = _username, Password = _password, Port=_port };
 
@@ -41,7 +42,10 @@ namespace CommandMicroservice.CommandSender
             {
                 channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-                var json = JsonConvert.SerializeObject(k);
+                var json = JsonConvert.SerializeObject(k,Formatting.Indented, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                });
                 var body = Encoding.UTF8.GetBytes(json);
 
                 channel.BasicPublish(exchange: "", routingKey: _queueName, basicProperties: null, body: body);

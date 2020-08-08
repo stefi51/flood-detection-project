@@ -22,6 +22,7 @@ namespace CommandMicroservice
 			services.AddControllers();
 			services.Configure<RabbitMQConfiguration>(Configuration.GetSection("RabbitMq"));
 			services.AddTransient<ICommandSender, CommandSender.CommandSender>();
+			services.AddSwaggerDocument();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,6 +34,8 @@ namespace CommandMicroservice
 			}
 
 			app.UseRouting();
+			app.UseOpenApi();
+			app.UseSwaggerUi3();
 
 			app.UseAuthorization();
 

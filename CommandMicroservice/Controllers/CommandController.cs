@@ -1,5 +1,6 @@
 ﻿using CommandMicroservice.CommandSender;
 using Microsoft.AspNetCore.Mvc;
+using SharedModels;
 
 namespace CommandMicroservice.Controllers
 {
@@ -16,7 +17,7 @@ namespace CommandMicroservice.Controllers
         [HttpGet("")]
         public ActionResult SendCommand()
         {
-            sender.SendCommand(15);
+            sender.SendCommand(new ReduceWaterLevel(){Name = "Reduce Water Level",MinusWaterLevel = 10.0});
             return Ok();
         }
     }

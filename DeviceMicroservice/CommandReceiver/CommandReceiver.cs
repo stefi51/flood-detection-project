@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Reflection;
+using SharedModels;
 
 namespace DeviceMicroservice.CommandReceiver
 {
@@ -65,9 +66,13 @@ namespace DeviceMicroservice.CommandReceiver
             consumer.Received += (ch, ea) =>
             {
                 var content = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var updateCustomerFullNameModel = JsonConvert.DeserializeObject<Int32>(content);
-
-                HandleMessage(updateCustomerFullNameModel);
+                var newCommand =
+                    JsonConvert.DeserializeObject<ICommand>(content, new CommandConverter(_sensorsService));
+                // HandleMessage(updateCustomerFullNameModel);
+               // System.Diagnostics.Debug.WriteLine(updateCustomerFullNameModel.Naziv);
+               newCommand.Run();
+               //HandleMessage(10);
+               
 
                 _channel.BasicAck(ea.DeliveryTag, false);
             };

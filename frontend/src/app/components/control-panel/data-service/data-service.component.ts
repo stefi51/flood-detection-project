@@ -21,6 +21,7 @@ export class DataServiceComponent implements OnInit {
 			rainfall: new FormControl(''),
 			stationId: new FormControl('1'),
 		});
+		this.showRawData();
 	}
 
 	submitTestData() {

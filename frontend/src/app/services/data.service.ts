@@ -8,19 +8,7 @@ import { SensorData } from '../models/sensor-data.model';
 })
 export class DataService {
 
-	rawDataSubject: Subject<SensorData> = new Subject();
-
 	constructor(private http: HttpClient) {
-		setInterval(() => {
-			const data: SensorData = {
-				waterFlow: Math.random() * 10,
-				waterLevel: Math.random() * 10,
-				rainfall: Math.random() * 10,
-				stationId: 4,
-				measuredDateTime: new Date()
-			}
-			this.rawDataSubject.next(data);
-		}, 5000);
 	}
 
 	post(data): Observable<any> {
@@ -28,6 +16,6 @@ export class DataService {
 	}
 
 	get(): Observable<any> {
-		return this.http.get("dataurl");
+		return this.http.get("http://localhost:3000/data");
 	}
 }

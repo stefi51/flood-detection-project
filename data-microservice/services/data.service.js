@@ -1,6 +1,5 @@
 "use strict";
 
-const request = require('request');
 const Influx = require('influx');
 
 module.exports = {
@@ -48,6 +47,7 @@ module.exports = {
 							time: Date.now()
 						}
 					]);
+
 				}
 				catch (err) {
 					console.log(err);

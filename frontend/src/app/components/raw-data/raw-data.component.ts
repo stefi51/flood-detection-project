@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 	templateUrl: './raw-data.component.html',
 	styleUrls: ['./raw-data.component.scss']
 })
-export class RawDataComponent implements OnInit, OnDestroy {
+export class RawDataComponent implements OnInit {
 
 	data = []
 	options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -20,13 +20,9 @@ export class RawDataComponent implements OnInit, OnDestroy {
 	constructor(private dataService: DataService) {}
 
 	ngOnInit(): void {
-		this.rawDataSubscription = this.dataService.rawDataSubject.subscribe(x => {
-			this.data = [...this.data, [x.measuredDateTime.toLocaleDateString('en-US', this.options) , x.rainfall, x.waterLevel, x.waterFlow]];
-		});
-	}
-
-	ngOnDestroy(): void {
-		this.rawDataSubscription?.unsubscribe();
+		setInterval( () => this.dataService.get().subscribe(x => {
+			this.data = x.map(y => [new Date(y.measuredDateTime).toLocaleDateString('en-US', this.options), y.rainfall, y.waterLevel, y.waterFlow]);
+		}), 5000);
 	}
 
 }

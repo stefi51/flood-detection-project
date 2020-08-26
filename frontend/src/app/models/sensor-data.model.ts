@@ -3,5 +3,5 @@ export class SensorData {
 	waterLevel: number;
 	rainfall: number;
 	stationId: number;
-	measuredDateTime: any;
+	measuredDateTime: Date;
 }

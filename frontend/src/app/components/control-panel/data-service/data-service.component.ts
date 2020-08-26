@@ -29,7 +29,7 @@ export class DataServiceComponent implements OnInit {
 			waterLevel: this.dataServiceFormGroup.get("waterLevel").value,
 			rainfall: this.dataServiceFormGroup.get("rainfall").value,
 			stationId: this.dataServiceFormGroup.get("stationId").value,
-			measuredDateTime: Date.now()
+			measuredDateTime: new Date()
 		}
 		console.log(rawData);
 		this.dataService.post("dummy").subscribe(console.log);

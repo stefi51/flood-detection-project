@@ -21,5 +21,12 @@ namespace CommandMicroservice.Controllers
             sender.SendCommand(new ReduceWaterLevel(){Name = "Reduce Water Level",MinusWaterLevel = 10.0});
             return Ok();
         }
+
+        [HttpPut("reducewaterlevel")]
+        public ActionResult ReduceWaterLevel(int reduction)
+        {
+            Console.WriteLine("Nesto");
+            return Ok();
+        }
     }
 }

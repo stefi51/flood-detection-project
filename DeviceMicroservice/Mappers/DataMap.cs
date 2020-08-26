@@ -10,14 +10,11 @@ namespace DeviceMicroservice.Mappers
     {
         public DataMap()
         {
-          //  Map(x => x.Id).ConvertUsing(row => (int) row.GetField<float>("light"));
-            //Map(x => x.FirstName).Name("fertilizer_level");
-            //Map(x => x.K).Name("light");
-            Map(x => x.Rainfall).Name("fertilizer_level");
-            Map(x => x.WaterFlow).Name("light");
-            Map(x => x.WaterLevel).Name("soil_moisture_percent");
-            Map(x => x.StationId).ConvertUsing(row => (int) row.GetField<float>("light"));
-            Map(x => x.MeasuredDateTime).Name("capture_datetime_utc");
+            Map(x => x.Rainfall).Name("rainfall");
+            Map(x => x.WaterFlow).Name("water level");
+            Map(x => x.WaterLevel).Name("flow water");
+            Map(x => x.StationId).ConvertUsing(row => (int) row.GetField<float>("stationId"));
+            Map(x => x.MeasuredDateTime).Name("dateTime");
 
         }
     }

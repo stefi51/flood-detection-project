@@ -44,13 +44,7 @@ namespace DeviceMicroservice.Controllers
             this.sensorsService.ChangeTimeStep(newTimeStep);
             return Ok();
         }
-
-    
- 
         
-        
-        
-
        [Route("sensorData")]
        // [HttpGet("getSensorData")]
         public ActionResult<IEnumerable<SensorData>> GetAllData()

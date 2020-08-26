@@ -1,1 +1,45 @@
-<p>analytics-service works!</p>
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>Analytics service</mat-card-title>
+	</mat-card-header>
+	<div class="container">
+		<form [formGroup]="analyticsServiceFormGroup">
+			<div>
+				<mat-form-field>
+					<mat-label>WaterFlow</mat-label>
+					<input matInput formControlName="waterFlow">
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>WaterLevel</mat-label>
+					<input matInput formControlName="waterLevel">
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>Rainfall</mat-label>
+					<input matInput formControlName="rainfall">
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>StationId</mat-label>
+					<input matInput formControlName="stationId">
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>Event type</mat-label>
+					<mat-select formControlName="eventType" multiple>
+						<mat-option *ngFor="let eventType of eventTypes" [value]="eventType">{{eventType}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</form>
+		<div>
+			<button mat-raised-button color="primary" (click)="submitTestData()">Submit</button>
+			<button mat-raised-button color="warn" (click)="showRawData()">Show data</button>
+		</div>
+	</div>
+</mat-card>

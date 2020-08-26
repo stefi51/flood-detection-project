@@ -1,1 +1,25 @@
-<p>command-service works!</p>
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>Command service</mat-card-title>
+	</mat-card-header>
+	<div class="container">
+		<form [formGroup]="commandServiceFormGroup">
+			<div>
+				<mat-form-field>
+					<mat-label>Command name</mat-label>
+					<input matInput formControlName="commandName">
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>StationId</mat-label>
+					<input matInput formControlName="stationId">
+				</mat-form-field>
+			</div>
+		</form>
+		<div>
+			<button mat-raised-button color="primary" (click)="showCommands()">Show commands</button>
+			<button mat-raised-button color="warn" (click)="invokeCommand()">Invoke</button>
+		</div>
+	</div>
+</mat-card>

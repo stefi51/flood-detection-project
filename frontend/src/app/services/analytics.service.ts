@@ -35,4 +35,12 @@ export class AnalyticsService {
 			alert(data.waterFlow);
 		});
 	}
+
+	post(data): Observable<any> {
+		return this.http.post("dummy", data);
+	}
+
+	get(): Observable<any> {
+		return this.http.get("dummy");
+	}
 }

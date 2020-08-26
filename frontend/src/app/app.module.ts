@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
+import {MatSelectModule} from '@angular/material/select';
+
 
 import { AppComponent } from './app.component';
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
@@ -39,7 +41,8 @@ import { DataFormComponent } from './components/data-form/data-form.component';
 		MatInputModule,
 		MatFormFieldModule,
 		BrowserAnimationsModule,
-		MatCardModule
+		MatCardModule,
+		MatSelectModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

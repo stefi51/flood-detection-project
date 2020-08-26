@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as signalR from "@aspnet/signalr";
 
 import { RefinedData } from '../models/refined-data.model';
@@ -11,6 +11,7 @@ import { RefinedData } from '../models/refined-data.model';
 })
 export class AnalyticsService {
 
+	refinedDataSubject: Subject<RefinedData> = new Subject();
 	private _hubConnection: signalR.HubConnection;
 
 	constructor(private http: HttpClient) {
@@ -32,7 +33,8 @@ export class AnalyticsService {
 
 	private registerRefinedDataUpdate() {
 		this._hubConnection.on('refinedDataUpdate', (data: RefinedData) => {
-			alert(data.waterFlow);
+			this.refinedDataSubject.next(data);
+			alert("New notification received!");
 		});
 	}
 

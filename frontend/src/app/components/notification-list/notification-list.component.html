@@ -1,1 +1,11 @@
-<p>notification-list works!</p>
+<mat-card>
+	<mat-card-header>
+		Unresolved notifications
+	</mat-card-header>
+	<div class="container" *ngIf="notificationList.length > 0">
+		<a (click)="showNotification(i)" mat-button color="warn" *ngFor="let notification of notificationList; let i = index">{{ "Notification: " + (i + 1) }}</a>
+	</div>
+	<div *ngIf="notificationList.length == 0">
+		<p>No unresolved notifications</p>
+	</div>
+</mat-card>

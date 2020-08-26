@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { CommandService } from 'src/app/services/command.service';
 
@@ -9,6 +9,9 @@ import { CommandService } from 'src/app/services/command.service';
 })
 export class CommandServiceComponent implements OnInit {
 
+	@Input() stationId: number;
+	@Output() invoked: EventEmitter<boolean> = new EventEmitter();
+
 	commandServiceFormGroup: FormGroup;
 
 	constructor(private fb: FormBuilder, private commandService: CommandService) { }
@@ -16,7 +19,7 @@ export class CommandServiceComponent implements OnInit {
 	ngOnInit(): void {
 		this.commandServiceFormGroup = this.fb.group({
 			commandName: new FormControl(''),
-			stationId: new FormControl('')
+			stationId: new FormControl(this.stationId)
 		})
 	}
 
@@ -30,5 +33,6 @@ export class CommandServiceComponent implements OnInit {
 			stationId: this.commandServiceFormGroup.get("stationId").value
 		}
 		this.commandService.post(commandData).subscribe(console.log);
+		this.invoked.emit(true);
 	}
 }

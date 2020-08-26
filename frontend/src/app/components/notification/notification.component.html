@@ -1,1 +1,9 @@
-<p>notification works!</p>
+<div>
+	{{data | json}}
+	<app-command-service [stationId]="data.stationId" (invoked)="invoked = true"></app-command-service>
+</div>
+<div>
+	<br>
+	<button mat-raised-button color="primary" [disabled]="!invoked" [mat-dialog-close]="invoked" (click)="resolve()">Resolve</button>
+	<button mat-raised-button color="warn" [disabled]="invoked" [mat-dialog-close]="invoked" (click)="postpone()">Postpone</button>
+</div>

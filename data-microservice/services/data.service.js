@@ -22,16 +22,28 @@ module.exports = {
 		},
 		create: {
 			params: {
-				id: { type: "number" }
+				waterFlow: { type: "number" },
+				waterLevel: { type: "number" },
+				rainfall: { type: "number" },
+				stationId: { type: "number" },
+				measuredDateTime: { type: "string"}
 			},
 			async handler(ctx) {
 				try {
-					console.log(ctx.params.id);
+					console.log(ctx.params.waterFlow);
+					console.log(ctx.params.waterLevel);
+					console.log(ctx.params.rainfall);
+					console.log(ctx.params.stationId);
+					console.log(ctx.params.measuredDateTime);
 					this.influx.writePoints([
 						{
 							measurement: 'data',
 							fields: {
-								id: ctx.params.id
+								waterFlow: ctx.params.waterFlow,
+								waterLevel: ctx.params.waterLevel,
+								rainfall: ctx.params.rainfall,
+								stationId: ctx.params.stationId,
+								measuredDateTime: ctx.params.measuredDateTime
 							},
 							time: Date.now()
 						}

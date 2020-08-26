@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const amqp = require('amqplib/callback_api');
+const { json } = require("express");
 
 module.exports = {
 	name: "gateway",
@@ -26,17 +27,25 @@ module.exports = {
 		},
 		postData(req, res) {
 			const payload = req.body;
+			console.log(payload);
 			return Promise.resolve()
 				.then(() => {
 					return this.sendData(payload)
 						.then(data =>
 							res.send(data)
-						);
+						)
 				})
 				.catch(this.handleErr(res));
 		},
 		sendData(payload) {
-			return this.broker.call("data.create", { id: payload.id });
+			console.log(payload)
+			return this.broker.call("data.create", {
+				waterFlow: payload.waterFlow,
+				waterLevel: payload.waterLevel,
+				rainfall: payload.rainfall,
+				stationId: payload.stationId,
+				measuredDateTime: payload.measuredDateTime
+			});
 		},
 		handleErr(res) {
 			return err => {
@@ -56,20 +65,55 @@ module.exports = {
 			if (error0) {
 				throw error0;
 			}
+			// Command queue
 			connection.createChannel((error1, channel) => {
 				if (error1) {
 					throw error1;
 				}
-				var queue = 'CommandQueue';
+				const queue = 'CommandQueue';
+				channel.assertQueue(queue, {
+					durable: false
+				});
+				channel.prefetch(1);+
+				console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+				channel.consume(queue, (msg) => {
+					const secs = msg.content.toString().split('.').length - 1;
+					console.log(" [x] Received %s", msg.content.toString());
+
+					setTimeout(function () {
+						console.log(" [x] Done");
+						channel.ack(msg);
+					}, secs * 1000);
+				}, {
+					noAck: false
+				});
+			});
+			
+			// SensorData queue
+			connection.createChannel((error1, channel) => {
+				if (error1) {
+					throw error1;
+				}
+				const queue = 'SensorDataQueue';
 				channel.assertQueue(queue, {
 					durable: false
 				});
 				channel.prefetch(1);
 				console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
 				channel.consume(queue, (msg) => {
-					var secs = msg.content.toString().split('.').length - 1;
+					const secs = msg.content.toString().split('.').length - 1;
 					console.log(" [x] Received %s", msg.content.toString());
-					this.sendData({ id: Number(msg.content.toString()) });
+
+					const jsonMsg = JSON.parse(msg.content.toString());
+					const data = {
+						waterFlow: jsonMsg.WaterFlow,
+						waterLevel: jsonMsg.WaterLevel,
+						rainfall: jsonMsg.Rainfall,
+						stationId: jsonMsg.StationId,
+						measuredDateTime: jsonMsg.MeasuredDateTime
+					}
+					this.sendData(data);
+
 					setTimeout(function () {
 						console.log(" [x] Done");
 						channel.ack(msg);

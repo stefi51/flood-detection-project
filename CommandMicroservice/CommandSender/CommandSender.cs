@@ -42,7 +42,15 @@ namespace CommandMicroservice.CommandSender
             {
                 channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-                var json = JsonConvert.SerializeObject(k,Formatting.Indented, new JsonSerializerSettings
+				var test = new SensorData() {
+					WaterFlow = 100,
+					WaterLevel = 500,
+					Rainfall = 600,
+					StationId = 5,
+					MeasuredDateTime = DateTime.Now
+				};
+
+                var json = JsonConvert.SerializeObject(test,Formatting.Indented, new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.All
                 });

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { Subscription } from 'rxjs';
+
 import { RefinedData } from 'src/app/models/refined-data.model';
 import { AnalyticsService } from 'src/app/services/analytics.service';
-import { MatDialog } from '@angular/material/dialog';
 import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
@@ -13,10 +16,12 @@ export class NotificationListComponent implements OnInit {
 
 	notificationList: RefinedData[] = [];
 
+	private refinedDataSubscription: Subscription;
+
 	constructor(private analyticsService: AnalyticsService, private dialog: MatDialog) { }
 
 	ngOnInit(): void {
-		this.analyticsService.refinedDataSubject.subscribe((x: RefinedData) =>
+		this.refinedDataSubscription = this.analyticsService.refinedDataSubject.subscribe((x: RefinedData) =>
 			this.notificationList.push(x)
 		);
 	}
@@ -30,6 +35,10 @@ export class NotificationListComponent implements OnInit {
 			if(invoked)
 				this.notificationList.splice(index, 1);
 		})
+	}
+
+	ngOnDestroy(): void {
+		this.refinedDataSubscription?.unsubscribe();
 	}
 
 }

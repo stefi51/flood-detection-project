@@ -13,9 +13,9 @@ namespace AnalyticsMicroservice.RefinedDataRepository
         private readonly IMongoCollection<RefinedData> refinedCollection;
         public RefinedDataRepository(IOptions<RefinedDataDatabaseConfiguration> configuration)
         {
-            var client = new MongoClient(configuration.Value.ConnectionString);
-            var database = client.GetDatabase(configuration.Value.DatabaseName);
-            refinedCollection = database.GetCollection<RefinedData>(configuration.Value.RefinedDataCollectionName);
+            // var client = new MongoClient(configuration.Value.ConnectionString);
+            // var database = client.GetDatabase(configuration.Value.DatabaseName);
+            // refinedCollection = database.GetCollection<RefinedData>(configuration.Value.RefinedDataCollectionName);
         }
 
         public List<RefinedData> GetAll()
@@ -25,7 +25,7 @@ namespace AnalyticsMicroservice.RefinedDataRepository
 
         public void InsertData(RefinedData k)
         {
-            refinedCollection.InsertOne(k);
+            // refinedCollection.InsertOne(k);
         }
     }
 }

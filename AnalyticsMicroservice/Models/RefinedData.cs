@@ -27,6 +27,7 @@ namespace AnalyticsMicroservice.Models
         public DateTime MeasuredDateTime { get; set; }
         public DateTime AnalyzedDataTime { get; set; }
         public EventType AnalyzedEventType { get; set; }
+		public RefinedData() {}
         public RefinedData(double waterFlow, double waterLevel, double rainfall, int stationId, DateTime measuredDateTime, DateTime analyzedDataTime, EventType analyzedEventType)
         {
             WaterFlow = waterFlow;

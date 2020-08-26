@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AnalyticsMicroservice.Infrastructure;
 using AnalyticsMicroservice.Models;
 using AnalyticsMicroservice.RefinedDataRepository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AnalyticsMicroservice.Controllers
 {
@@ -15,13 +16,15 @@ namespace AnalyticsMicroservice.Controllers
     public class AnalyticsController : ControllerBase
     {
         private IRefinedDataRepository repository { get; set; }
-        private static  HttpClient _httpClient;
-    
+        private static HttpClient _httpClient;
+        private IHubContext<SignalServer> hub { get; set; }
+
 
         public AnalyticsController(IRefinedDataRepository dataRepository)
         {
             this.repository = dataRepository;
-            _httpClient= new HttpClient();
+            this.hub = hub;
+            _httpClient = new HttpClient();
             Fja();
         }
 
@@ -39,8 +42,8 @@ namespace AnalyticsMicroservice.Controllers
                 Console.WriteLine(e);
                 throw;
             }
-
         }
+
         [HttpGet("")]
         public ActionResult<IEnumerable<RefinedData>> GetData()
         {
@@ -51,10 +54,8 @@ namespace AnalyticsMicroservice.Controllers
         [HttpPost("")]
         public ActionResult PostData(RefinedData k)
         {
-            this.repository.InsertData(k);
+            this.hub.Clients.All.SendAsync("refinedDataUpdate", k);
             return Ok();
         }
-
-
     }
 }

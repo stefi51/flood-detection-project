@@ -66,14 +66,8 @@ namespace DeviceMicroservice.CommandReceiver
             consumer.Received += (ch, ea) =>
             {
                 var content = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var newCommand =
-                    JsonConvert.DeserializeObject<ICommand>(content, new CommandConverter(_sensorsService));
-                // HandleMessage(updateCustomerFullNameModel);
-               // System.Diagnostics.Debug.WriteLine(updateCustomerFullNameModel.Naziv);
-               newCommand.Run();
-               //HandleMessage(10);
-               
-
+                var newCommand = JsonConvert.DeserializeObject<ICommand>(content, new CommandConverter(_sensorsService));
+                newCommand.Run();
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
             consumer.Shutdown += OnConsumerShutdown;

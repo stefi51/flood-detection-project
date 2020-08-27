@@ -23,7 +23,7 @@ namespace DeviceMicroservice.DataPublisher
         public DataPublisher(IOptions<RabbitMQConfiguration> rabbitMqOptions)
         {
             _hostname = rabbitMqOptions.Value.Hostname;
-            _queueName = rabbitMqOptions.Value.QueueName;
+            _queueName = rabbitMqOptions.Value.QueueSensorName;
             _username = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
             _port = rabbitMqOptions.Value.Port;

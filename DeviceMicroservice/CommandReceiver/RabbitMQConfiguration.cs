@@ -10,6 +10,7 @@ namespace DeviceMicroservice.CommandReceiver
         public string Hostname { get; set; }
 
         public string QueueName { get; set; }
+        public string QueueSensorName { get; set; }
 
         public string UserName { get; set; }
 

@@ -41,16 +41,7 @@ namespace CommandMicroservice.CommandSender
             using (var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
-
-				var test = new SensorData() {
-					WaterFlow = 100,
-					WaterLevel = 500,
-					Rainfall = 600,
-					StationId = 5,
-					MeasuredDateTime = DateTime.Now
-				};
-
-                var json = JsonConvert.SerializeObject(test,Formatting.Indented, new JsonSerializerSettings
+                var json = JsonConvert.SerializeObject(k,Formatting.Indented, new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.All
                 });

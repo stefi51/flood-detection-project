@@ -20,12 +20,18 @@ namespace DeviceMicroservice.CommandReceiver
         {
             if (FieldExists("MinusWaterLevel", jObject))
             {
-                
-                return new DeviceReduceWaterLevel(this._sensorsService);
-                
+                return new DeviceDecreaseWaterLevel(this._sensorsService);
             }else if (FieldExists("PlusWaterLevel",jObject))
             {
                return new DeviceIncreaseWaterLevel(this._sensorsService);
+            }
+            else if (FieldExists("MinusWaterFlow", jObject))
+            {
+                return  new DeviceDecreaseWaterFlow(this._sensorsService);
+            }
+            else if(FieldExists("PlusWaterFlow", jObject))
+            {
+                return  new DeviceIncreaseWaterFlow(this._sensorsService);
             }
 
             return new BaseCommand();

@@ -85,7 +85,7 @@ namespace DeviceMicroservice
                         currentData.StationId = sensorData.StationId;
                         currentData.Threshold = DateTime.Now.Add(new System.TimeSpan(0, 0, 0, timeStep));
                         sensorDataPublisher.SendData(sensorData);
-                        SendRestData(sensorData);
+                       // SendRestData(sensorData);
                         await Task.Delay(TimeSpan.FromSeconds(timeStep), cancelToken);
                     }
                     catch (Exception e)

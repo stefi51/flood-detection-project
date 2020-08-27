@@ -14,18 +14,32 @@ namespace CommandMicroservice.Controllers
         {
             this.sender = sender;
         }
-
-        [HttpGet("")]
-        public ActionResult SendCommand()
+        
+        [HttpPost("decreasewaterlevel")]
+        public ActionResult DecreaseWaterLevel(DecreaseWaterLevel command)
         {
-            sender.SendCommand(new ReduceWaterLevel(){Name = "Reduce Water Level",MinusWaterLevel = 10.0});
+            sender.SendCommand(command);
             return Ok();
         }
 
-        [HttpPut("reducewaterlevel")]
-        public ActionResult ReduceWaterLevel(int reduction)
+        [HttpPost("increasewaterlevel")]
+        public ActionResult IncreaseWaterLevel(IncreaseWaterLevel command)
         {
-            Console.WriteLine("Nesto");
+            sender.SendCommand(command);
+            return Ok();
+        }
+
+        [HttpPost("increasewaterflow")]
+        public ActionResult IncreaseWaterFlow(IncreaseWaterFlow command)
+        {
+            sender.SendCommand(command);
+            return Ok();
+        }
+
+        [HttpPost("decreasewaterflow")]
+        public ActionResult DecreaseWaterFlow(DecreaseWaterFlow command)
+        {
+            sender.SendCommand(command);
             return Ok();
         }
     }

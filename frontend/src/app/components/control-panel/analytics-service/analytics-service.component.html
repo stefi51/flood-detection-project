@@ -31,7 +31,7 @@
 			<div>
 				<mat-form-field>
 					<mat-label>Event type</mat-label>
-					<mat-select formControlName="eventType" multiple>
+					<mat-select formControlName="eventType">
 						<mat-option *ngFor="let eventType of eventTypes" [value]="eventType">{{eventType}}</mat-option>
 					</mat-select>
 				</mat-form-field>

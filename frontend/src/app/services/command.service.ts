@@ -9,8 +9,8 @@ export class CommandService {
 
 	constructor(private http: HttpClient) { }
 
-	post(data): Observable<any> {
-		return this.http.post("dummy", data);
+	post(data, path): Observable<any> {
+		return this.http.post(`http://localhost:5001/${path}`, data);
 	}
 
 	get(): Observable<any> {

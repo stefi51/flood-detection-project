@@ -12,8 +12,32 @@
 			</div>
 			<div>
 				<mat-form-field>
-					<mat-label>StationId</mat-label>
+					<mat-label>Station Id</mat-label>
 					<input matInput formControlName="stationId">
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>Flow/Level</mat-label>
+					<mat-select formControlName="commandType">
+						<mat-option [value]="'Flow'"> Flow </mat-option>
+						<mat-option [value]="'Level'"> Level </mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>Increase/Decrease</mat-label>
+					<mat-select formControlName="value">
+						<mat-option [value]="'plus'"> Increase </mat-option>
+						<mat-option [value]="'minus'"> Decrease </mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label>Ammount</mat-label>
+					<input matInput formControlName="ammount">
 				</mat-form-field>
 			</div>
 		</form>

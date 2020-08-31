@@ -1,9 +1,27 @@
 {
   "routes": [
     {
-      "endpoint": "/command",
+      "endpoint": "/decreasewaterlevel",
       "destination": {
-        "path": "http://localhost:6001/api/command/"
+        "path": "http://commandmicroservice:80/api/command/decreasewaterlevel"
+      }
+    },
+    {
+      "endpoint": "/increasewaterlevel",
+      "destination": {
+        "path": "http://commandmicroservice:80/api/command/increasewaterlevel"
+      }
+    },
+    {
+      "endpoint": "/increasewaterflow",
+      "destination": {
+        "path": "http://commandmicroservice:80/api/command/increasewaterflow"
+      }
+    },
+    {
+      "endpoint": "/decreasewaterflow",
+      "destination": {
+        "path": "http://commandmicroservice:80/api/command/decreasewaterflow"
       }
     }
   ]

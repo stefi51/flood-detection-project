@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Gateway.RouterModel;
+using System;
 
 namespace Gateway
 {
@@ -13,6 +14,14 @@ namespace Gateway
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy", builder => builder
+					.WithOrigins("http://localhost:4200")
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,11 +34,14 @@ namespace Gateway
 
 			app.UseRouting();
 
+			app.UseCors("CorsPolicy");
+
 			var router = new Router("routes.json");
 			app.Run(async (context) =>
 			{
-				var content = await router.RouteRequest(context.Request);
-				await context.Response.WriteAsync(content.StatusCode.ToString());
+				var routerResponse = await router.RouteRequest(context.Request);
+				Console.WriteLine(routerResponse.Content);
+				await context.Response.WriteAsync(routerResponse.Content.ToString());
 			});
 		}
 	}

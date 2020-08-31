@@ -31,6 +31,13 @@ services:
       dockerfile: CommandMicroservice/Dockerfile
     depends_on:
             - rabbitmq
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    ports:
+        - 5001:80
+    build:
+      context: .
+      dockerfile: Gateway/Dockerfile
   mongo:
       image: mongo:latest
       container_name: mongo

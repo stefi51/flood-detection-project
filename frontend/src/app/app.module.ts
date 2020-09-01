@@ -8,6 +8,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -50,7 +51,8 @@ import { RawDataComponent } from './components/raw-data/raw-data.component';
 		MatCardModule,
 		MatSelectModule,
 		MatDialogModule,
-		MatDividerModule
+		MatDividerModule,
+		MatTableModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

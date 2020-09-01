@@ -27,10 +27,6 @@ export class CommandServiceComponent implements OnInit {
 		})
 	}
 
-	showCommands() {
-		this.commandService.get().subscribe(console.log);
-	}
-
 	invokeCommand() {
 		const dynamicPropertyName: string = `${this.commandServiceFormGroup.get("value").value}Water${this.commandServiceFormGroup.get("commandType").value}`;
 		const commandData: Command = {

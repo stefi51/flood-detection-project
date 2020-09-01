@@ -8,7 +8,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DataFormComponent implements OnInit {
 
-	constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+	items: any;
+	type: string;
+	displayedColumns: string[] = ['Water level', 'Water flow', 'Rainfall', 'Measured time'];
+
+	constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+		this.items = data.items;
+		this.type = data.type;
+	 }
 
 	ngOnInit(): void {
 	}

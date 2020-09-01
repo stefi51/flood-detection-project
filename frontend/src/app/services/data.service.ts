@@ -12,7 +12,7 @@ export class DataService {
 	}
 
 	post(data): Observable<any> {
-		return this.http.post("dataurl",data);
+		return this.http.post("http://localhost:5001/raw-data", data);
 	}
 
 	get(): Observable<any> {

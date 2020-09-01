@@ -20,6 +20,7 @@ services:
     build:
       context: .
       dockerfile: DeviceMicroservice/Dockerfile
+    restart: on-failure
     depends_on:
            - rabbitmq
   analyticsmicroservice:
@@ -27,13 +28,16 @@ services:
     build:
       context: .
       dockerfile: AnalyticsMicroservice/Dockerfile
+    restart: on-failure
     depends_on:
-         - mongo    
+         - mongo
+         - rabbitmq
   commandmicroservice:
     image: ${DOCKER_REGISTRY-}commandmicroservice
     build:
       context: .
       dockerfile: CommandMicroservice/Dockerfile
+    restart: on-failure
     depends_on:
             - rabbitmq
   gateway:

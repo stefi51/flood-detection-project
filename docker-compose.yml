@@ -6,10 +6,15 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:15672"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
         environment:
-            - RABBITMQ_DEFAULT_USER=user
-            - RABBITMQ_DEFAULT_PASS=password        
-        image: rabbitmq:3-management
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        image: rabbitmq:3
   devicemicroservice:
     image: ${DOCKER_REGISTRY-}devicemicroservice
     build:
@@ -43,7 +48,9 @@ services:
     build:
       context: .
       dockerfile: data-microservice/Dockerfile
+    restart: on-failure
     depends_on:
+        - rabbitmq
         - influx
   mongo:
       image: mongo:latest

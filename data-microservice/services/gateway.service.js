@@ -65,7 +65,7 @@ module.exports = {
 		this.initRoutes(app);
 		this.app = app;
 
-		amqp.connect('amqp://116.202.13.157', (error0, connection) => {
+		amqp.connect('amqp://guest:guest@rabbitmq:5672', (error0, connection) => {
 			if (error0) {
 				throw error0;
 			}

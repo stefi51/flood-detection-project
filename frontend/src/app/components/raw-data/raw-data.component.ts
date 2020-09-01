@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -14,8 +12,6 @@ export class RawDataComponent implements OnInit {
 	data = []
 	options = { year: 'numeric', month: 'long', day: 'numeric' };
 	columns: string[] = ['Measured time', 'Rainfall', 'Water Level', 'Water flow'];
-
-	private rawDataSubscription: Subscription;
 
 	constructor(private dataService: DataService) {}
 

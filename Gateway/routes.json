@@ -23,6 +23,12 @@
       "destination": {
         "path": "http://commandmicroservice:80/api/command/decreasewaterflow"
       }
+    },
+    {
+      "endpoint": "/raw-data",
+      "destination": {
+        "path": "http://datamicroservice:3000/data"
+      }
     }
   ]
 }

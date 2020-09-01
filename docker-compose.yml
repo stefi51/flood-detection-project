@@ -38,6 +38,13 @@ services:
     build:
       context: .
       dockerfile: Gateway/Dockerfile
+  datamicroservice:
+    image: ${DOCKER_REGISTRY-}datamicroservice
+    build:
+      context: .
+      dockerfile: data-microservice/Dockerfile
+    depends_on:
+        - influx
   mongo:
       image: mongo:latest
       container_name: mongo
@@ -45,7 +52,14 @@ services:
           - 27017:27017
       volumes:
         - mongodata:/data/db
+  influx:
+      image: influxdb:latest
+      container_name: influx
+      ports:
+          - 8086:8086
+      volumes:
+        - influxdbdata:/data/db
 
 volumes:
   mongodata:
-
+  influxdbdata:

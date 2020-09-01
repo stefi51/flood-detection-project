@@ -16,6 +16,6 @@ export class DataService {
 	}
 
 	get(): Observable<any> {
-		return this.http.get("http://localhost:3000/data");
+		return this.http.get("http://localhost:5001/raw-data");
 	}
 }

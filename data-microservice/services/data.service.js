@@ -58,7 +58,7 @@ module.exports = {
 	methods: {},
 	events: {},
 	created() {
-		this.influx = new Influx.InfluxDB("http://admin:admin@116.202.13.157:8086/data");
+		this.influx = new Influx.InfluxDB("http://admin:admin@influx:8086/data");
 		this.influx.getDatabaseNames().then((names) => {
 			if (!names.includes('data')) {
 				return this.influx.createDatabase('data');

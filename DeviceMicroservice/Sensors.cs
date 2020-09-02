@@ -31,7 +31,7 @@ namespace DeviceMicroservice
             readService = rdS;
             sensorDataRepo.SetData(readService.ReadCSVFile("./Data.csv"));
             turnedOn = true;
-            timeStep = 10;
+            timeStep = 4;
             currentData = new LiveMetaData(sensorDataRepo.GetData().First().StationId, timeStep, DateTime.Now);
             cancelTokenSource = new CancellationTokenSource();
             _httpClient = new HttpClient();
@@ -71,7 +71,7 @@ namespace DeviceMicroservice
                         currentData.waterlevel = changedSensorData.WaterLevel;
                         //
                         sensorDataPublisher.SendData(changedSensorData);
-                        SendRestData(changedSensorData);
+                       // SendRestData(changedSensorData);
                         await Task.Delay(TimeSpan.FromSeconds(timeStep), cancelToken);
                     }
                     catch (Exception e)

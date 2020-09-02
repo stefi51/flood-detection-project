@@ -30,11 +30,6 @@ module.exports = {
 			},
 			async handler(ctx) {
 				try {
-					console.log(ctx.params.waterFlow);
-					console.log(ctx.params.waterLevel);
-					console.log(ctx.params.rainfall);
-					console.log(ctx.params.stationId);
-					console.log(ctx.params.measuredDateTime);
 					this.influx.writePoints([
 						{
 							measurement: 'data',

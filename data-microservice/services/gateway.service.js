@@ -38,13 +38,15 @@ module.exports = {
 		},
 		sendData(payload) {
 			console.log(payload)
-			return this.broker.call("data.create", {
+			const data = {
 				waterFlow: payload.waterFlow,
 				waterLevel: payload.waterLevel,
 				rainfall: payload.rainfall,
 				stationId: payload.stationId,
 				measuredDateTime: payload.measuredDateTime
-			});
+			}
+			// this.send('SensorDataQueue', Buffer.from(data));
+			return this.broker.call("data.create", data);
 		},
 		handleErr(res) {
 			return err => {
@@ -69,7 +71,7 @@ module.exports = {
 			if (error0) {
 				throw error0;
 			}
-			// SensorData queue
+			// SensorDataQueue
 			connection.createChannel((error1, channel) => {
 				if (error1) {
 					throw error1;
@@ -101,6 +103,17 @@ module.exports = {
 				}, {
 					noAck: false
 				});
+			});
+			// DataAnalyticsQueue
+			connection.createChannel((error1, channel) => {
+				if (error1) {
+					throw error1;
+				}
+				const queue = 'DataAnalyticsQueue';
+				channel.assertQueue(queue, {
+					durable: false
+				});
+				// this.send = channel.sendToQueue;
 			});
 		});
 	}

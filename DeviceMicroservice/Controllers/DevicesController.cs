@@ -28,8 +28,7 @@ namespace DeviceMicroservice.Controllers
 
 
         [HttpGet("")]
-        //public ActionResult<IEnumerable<LiveMetaData>> GetData()
-        public ActionResult<LiveMetaData> GetData()
+        public ActionResult<LiveMetaData> GetLiveData()
         {
 
             return sensorsService.GetMetaData();
@@ -37,20 +36,20 @@ namespace DeviceMicroservice.Controllers
         }
         
         
-        [HttpPost("")]
-        //[HttpPut("")]
-        public ActionResult ChangeTimeStep([FromBody]int newTimeStep)
+        [HttpPost("SetPeriodTime")]
+      
+        public ActionResult SetPeriodTime([FromBody]int newTimeStep)
         {
             this.sensorsService.ChangeTimeStep(newTimeStep);
             return Ok();
         }
         
-       [Route("sensorData")]
+/*       [Route("sensorData")]
        // [HttpGet("getSensorData")]
         public ActionResult<IEnumerable<SensorData>> GetAllData()
         {
             return sensorsDataRepository.GetData();
-        }
+        }*/
        
        
 

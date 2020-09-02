@@ -2,7 +2,6 @@
 using DeviceMicroservice.Repositories;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -25,7 +24,6 @@ namespace DeviceMicroservice
         private int timeStep;
         private LiveMetaData currentData;
         private static HttpClient _httpClient;
-
         public Sensors(IDataPublisher dataPublisher, IDataRepository iDataRepo, ReadService rdS)
         {
             sensorDataRepo = iDataRepo;
@@ -34,7 +32,7 @@ namespace DeviceMicroservice
             sensorDataRepo.SetData(readService.ReadCSVFile("./Data.csv"));
             turnedOn = true;
             timeStep = 10;
-            currentData = new LiveMetaData(1, timeStep, DateTime.Now);
+            currentData = new LiveMetaData(sensorDataRepo.GetData().First().StationId, timeStep, DateTime.Now);
             cancelTokenSource = new CancellationTokenSource();
             _httpClient = new HttpClient();
         }
@@ -53,23 +51,6 @@ namespace DeviceMicroservice
             return currentData;
         }
 
-        protected async void SendRestData(SensorData payload)
-        {
-            string strPayload = JsonConvert.SerializeObject(payload);
-            HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
-            try
-            {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:5000/api/analytics", c);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(responseBody);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var cancelToken = new CancellationToken();
@@ -84,8 +65,13 @@ namespace DeviceMicroservice
                         currentData.TimeStep = timeStep;
                         currentData.StationId = sensorData.StationId;
                         currentData.Threshold = DateTime.Now.Add(new System.TimeSpan(0, 0, 0, timeStep));
-                        sensorDataPublisher.SendData(sensorData);
-                       // SendRestData(sensorData);
+                        SensorData changedSensorData= ChangeSensorData(sensorData);
+                        //ovo je radi testa
+                        currentData.waterflow = changedSensorData.WaterFlow;
+                        currentData.waterlevel = changedSensorData.WaterLevel;
+                        //
+                        sensorDataPublisher.SendData(changedSensorData);
+                        SendRestData(changedSensorData);
                         await Task.Delay(TimeSpan.FromSeconds(timeStep), cancelToken);
                     }
                     catch (Exception e)
@@ -93,6 +79,48 @@ namespace DeviceMicroservice
                         await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
                     }
                 }
+            }
+        }
+
+        private SensorData ChangeSensorData(SensorData data)
+        {
+            var dStationParameters = sensorDataRepo.GetStationParameters(data.StationId);
+            SensorData newData = new SensorData()
+            {
+                MeasuredDateTime = data.MeasuredDateTime,
+                Rainfall = data.Rainfall,
+                StationId = data.StationId,
+                WaterFlow = data.WaterFlow,
+                WaterLevel = data.WaterLevel
+            };
+            newData.WaterFlow += dStationParameters.CommandWaterFlow;
+            newData.WaterLevel += dStationParameters.CommandWaterLevel;
+            if (newData.WaterLevel < 0.0)
+            {
+                newData.WaterLevel = 0.0;
+
+            }
+            if (newData.WaterFlow < 0.0)
+            {
+                newData.WaterFlow = 0.0;
+            }
+
+            return newData;
+        }
+        protected async void SendRestData(SensorData payload)
+        {
+            string strPayload = JsonConvert.SerializeObject(payload);
+            HttpContent content = new StringContent(strPayload, Encoding.UTF8, "application/json");
+            try
+            {
+                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:3000/data", content);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(responseBody);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
     }

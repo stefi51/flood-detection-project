@@ -24,7 +24,6 @@ namespace AnalyticsMicroservice.DataSubscriber
         private readonly string _username;
         private readonly string _password;
         private readonly int _port;
-       // private IRefinedDataRepository refinedData;
         private AnalyticsService analyticsService;
        
         public DataSubscriber(IRefinedDataRepository refinedData,

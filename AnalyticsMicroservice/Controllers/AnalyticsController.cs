@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AnalyticsMicroservice.AServices;
 using AnalyticsMicroservice.Infrastructure;
 using AnalyticsMicroservice.Models;
 using AnalyticsMicroservice.RefinedDataRepository;
@@ -14,13 +15,11 @@ namespace AnalyticsMicroservice.Controllers
     public class AnalyticsController : ControllerBase
     {
         private IRefinedDataRepository repository { get; set; }
-        private IHubContext<NotificationService> hub { get; set; }
-
-
-        public AnalyticsController(IRefinedDataRepository dataRepository, IHubContext<NotificationService> hub)
+        private AnalyticsService analyticsService;
+        public AnalyticsController(IRefinedDataRepository dataRepository, AnalyticsService analyticsService)
         {
             this.repository = dataRepository;
-            this.hub = hub;
+            this.analyticsService = analyticsService;
         }
 
         [HttpGet("")]
@@ -28,12 +27,20 @@ namespace AnalyticsMicroservice.Controllers
         {
             return this.repository.GetAll();
         }
-        [HttpPost("")]
-        public ActionResult PostData2([FromBody]SensorData k)
+        [HttpPost("newSensorData")]
+        public ActionResult NewSensorData([FromBody] SensorData sensorData)
         {
-            this.hub.Clients.All.SendAsync("refinedDataUpdate", k);
+            this.analyticsService.ProcessNewData(sensorData);
             return Ok();
         }
+
+/*        [HttpPost("postdata2")]
+        public ActionResult PostData2([FromBody]SensorData k)
+        {
+			if (k.Rainfall > 0.1 && k.WaterLevel > 5)
+				//this.hub.Clients.All.SendAsync("refinedDataUpdate", k);
+            return Ok();
+        }*/
 
         /*[HttpPost("")]
         public ActionResult PostData(RefinedData k)

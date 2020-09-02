@@ -15,6 +15,7 @@ services:
             - RABBITMQ_DEFAULT_USER=guest
             - RABBITMQ_DEFAULT_PASS=guest
         image: rabbitmq:3
+
   devicemicroservice:
     image: ${DOCKER_REGISTRY-}devicemicroservice
     build:
@@ -23,8 +24,11 @@ services:
     restart: on-failure
     depends_on:
            - rabbitmq
+
   analyticsmicroservice:
     image: ${DOCKER_REGISTRY-}analyticsmicroservice
+    ports:
+        - 4000:80
     build:
       context: .
       dockerfile: AnalyticsMicroservice/Dockerfile
@@ -32,6 +36,7 @@ services:
     depends_on:
          - mongo
          - rabbitmq
+
   commandmicroservice:
     image: ${DOCKER_REGISTRY-}commandmicroservice
     build:
@@ -40,6 +45,7 @@ services:
     restart: on-failure
     depends_on:
             - rabbitmq
+
   gateway:
     image: ${DOCKER_REGISTRY-}gateway
     ports:
@@ -47,6 +53,7 @@ services:
     build:
       context: .
       dockerfile: Gateway/Dockerfile
+
   datamicroservice:
     image: ${DOCKER_REGISTRY-}datamicroservice
     build:
@@ -56,6 +63,7 @@ services:
     depends_on:
         - rabbitmq
         - influx
+
   mongo:
       image: mongo:latest
       container_name: mongo
@@ -63,6 +71,7 @@ services:
           - 27017:27017
       volumes:
         - mongodata:/data/db
+
   influx:
       image: influxdb:latest
       container_name: influx

@@ -57,7 +57,7 @@ namespace AnalyticsMicroservice
 
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapHub<SignalServer>("signalServer");
+				endpoints.MapHub<NotificationService>("notificationservice");
 				endpoints.MapControllers();
 			});
 		}

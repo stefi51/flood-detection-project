@@ -33,11 +33,8 @@ namespace DeviceMicroservice
         {
             
             services.AddTransient<IDataRepository, DataRepository>();
-           // services.AddTransient<ISensors, Sensors>();
             services.AddControllers();
-            // services.AddHostedService<Sensors>();
             services.Configure<RabbitMQConfiguration>(Configuration.GetSection("RabbitMq"));
-
             services.AddTransient<IDataPublisher, DataPublisher.DataPublisher>();
             services.AddSingleton<Sensors>();
             services.AddSingleton<IHostedService, Sensors>(serviceProvider => serviceProvider.GetService<Sensors>());

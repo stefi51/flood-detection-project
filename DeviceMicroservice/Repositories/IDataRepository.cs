@@ -14,6 +14,7 @@ namespace DeviceMicroservice.Repositories
         public void PromeniKorak(int k);
         public int vratiKorak();
         public void SetData(List<SensorData> mDataList);
+        public Dictionary<int, StationParameters> GetStationParameters();
 
     }
 }

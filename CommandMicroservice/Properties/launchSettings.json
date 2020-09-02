@@ -30,7 +30,8 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/command",
-      "publishAllPorts": true
+      "publishAllPorts": true,
+      "applicationUrl": "http://localhost:6001"
     }
   }
 }

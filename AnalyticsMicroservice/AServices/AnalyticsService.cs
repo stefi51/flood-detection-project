@@ -51,7 +51,7 @@ namespace AnalyticsMicroservice.AServices
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/decreasewaterlevel", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://commandmicroservice:80/api/Command/decreasewaterlevel", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);
@@ -72,7 +72,7 @@ namespace AnalyticsMicroservice.AServices
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/increasewaterlevel", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://commandmicroservice:80/api/Command/increasewaterlevel", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);
@@ -93,7 +93,7 @@ namespace AnalyticsMicroservice.AServices
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/increasewaterflow", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://commandmicroservice:80/api/Command/increasewaterflow", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);
@@ -115,7 +115,7 @@ namespace AnalyticsMicroservice.AServices
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/decreasewaterflow", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://commandmicroservice:80/api/Command/decreasewaterflow", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);

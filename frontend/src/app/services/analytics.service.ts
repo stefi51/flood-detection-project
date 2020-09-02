@@ -39,7 +39,7 @@ export class AnalyticsService {
 	}
 
 	post(data): Observable<any> {
-		return this.http.post("http://localhost:5001/refineddata", data);
+		return this.http.post("http://localhost:5001/newsensordata", data);
 	}
 
 	get(): Observable<any> {

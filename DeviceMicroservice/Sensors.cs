@@ -113,10 +113,7 @@ namespace DeviceMicroservice
             HttpContent content = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:3000/data", content);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(responseBody);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://datamicroservice:3000/data", content);
             }
             catch (Exception e)
             {

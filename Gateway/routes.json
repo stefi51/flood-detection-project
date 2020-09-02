@@ -43,9 +43,9 @@
       }
     },
     {
-      "endpoint": "/refineddata",
+      "endpoint": "/newsensordata",
       "destination": {
-        "path": "http://analyticsmicroservice:80/api/analytics/postdata2"
+        "path": "http://analyticsmicroservice:80/api/analytics/newsensordata"
       }
     },
     {

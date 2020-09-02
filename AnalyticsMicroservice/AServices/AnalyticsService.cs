@@ -1,8 +1,10 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using AnalyticsMicroservice.Infrastructure;
 using AnalyticsMicroservice.Models;
 using AnalyticsMicroservice.RefinedDataRepository;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using SharedModels;
 
@@ -12,10 +14,12 @@ namespace AnalyticsMicroservice.AServices
     {
         private IRefinedDataRepository refinedDataRepository;
         private static HttpClient _httpClient;
-        
-        public AnalyticsService(IRefinedDataRepository refinedDataRepository)
+        private IHubContext<NotificationService> hub { get; set; }
+
+        public AnalyticsService(IRefinedDataRepository refinedDataRepository, IHubContext<NotificationService> hub)
         {
             this.refinedDataRepository = refinedDataRepository;
+            this.hub = hub;
             _httpClient = new HttpClient();
         }
         
@@ -26,12 +30,15 @@ namespace AnalyticsMicroservice.AServices
                 RefinedData newRefinedData= new RefinedData(newSData.WaterFlow,newSData.WaterLevel,
                     newSData.Rainfall,newSData.StationId,newSData.MeasuredDateTime,DateTime.Now, EventType.Warning);
                 this.refinedDataRepository.InsertData(newRefinedData);
-              //  this.DecreaseWaterFlow(newSData);
-              //this.IncreaseWaterFlow(newSData);
-            //  this.IncreaseWaterLevel(newSData);
-            this.DecreaseWaterLevel(newSData);
-            } 
-            
+
+                this.hub.Clients.All.SendAsync("refinedDataUpdate", newSData);
+                // this.hub.Clients.All.SendAsync("refinedDataUpdate", newSData);
+                //  this.DecreaseWaterFlow(newSData);
+                //this.IncreaseWaterFlow(newSData);
+                //  this.IncreaseWaterLevel(newSData);
+                // this.DecreaseWaterLevel(newSData);
+            }
+
         }
         protected async void DecreaseWaterLevel(SensorData payload)
         {

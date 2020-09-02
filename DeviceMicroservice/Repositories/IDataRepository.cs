@@ -11,10 +11,12 @@ namespace DeviceMicroservice.Repositories
     {
         List<SensorData> GetData();
         public void AddData(SensorData mData);
-        public void PromeniKorak(int k);
-        public int vratiKorak();
         public void SetData(List<SensorData> mDataList);
         public Dictionary<int, StationParameters> GetStationParameters();
+        public void UpdateStationParameter(int stationId, double waterLevel, double waterFlow);
+        public void UpdateStationWaterLevel(int stationId, double waterLevel);
+        public void UpdateStationWaterFlow(int stationId, double waterFlow);
+        public StationParameters GetStationParameters(int stationId);
 
     }
 }

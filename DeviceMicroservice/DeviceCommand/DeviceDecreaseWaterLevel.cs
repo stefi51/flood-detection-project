@@ -1,19 +1,19 @@
+using DeviceMicroservice.Repositories;
 using SharedModels;
 
 namespace DeviceMicroservice.DeviceCommand
 {
     public class DeviceDecreaseWaterLevel:DecreaseWaterLevel
     {
-        private Sensors _sensorsService;
+        private IDataRepository dataRepository;
 
-        public DeviceDecreaseWaterLevel(Sensors sensors)
+        public DeviceDecreaseWaterLevel(IDataRepository repository)
         {
-            this._sensorsService = sensors;
+            this.dataRepository = repository;
         }
         public override void Run()
         {
-          //  base.Run();
-            System.Diagnostics.Debug.WriteLine(this.MinusWaterLevel.ToString());
+            dataRepository.UpdateStationWaterLevel(this.StationId,-this.MinusWaterLevel);
         }
     }
 }

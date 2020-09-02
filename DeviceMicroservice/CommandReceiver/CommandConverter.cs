@@ -1,5 +1,6 @@
 using System;
 using DeviceMicroservice.DeviceCommand;
+using DeviceMicroservice.Repositories;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -11,27 +12,31 @@ namespace DeviceMicroservice.CommandReceiver
 {
     public class CommandConverter : JsonCreationConverter<ICommand>
     {
-        private Sensors _sensorsService;
-        public CommandConverter(Sensors sensors)
+        private IDataRepository _dataRepository;
+        public CommandConverter(IDataRepository repository)
         {
-            this._sensorsService = sensors;
+            _dataRepository = repository;
         }
         protected override ICommand Create(Type objectType, JObject jObject)
         {
             if (FieldExists("MinusWaterLevel", jObject))
             {
-                return new DeviceDecreaseWaterLevel(this._sensorsService);
+                return new DeviceDecreaseWaterLevel(this._dataRepository);
             }else if (FieldExists("PlusWaterLevel",jObject))
             {
-               return new DeviceIncreaseWaterLevel(this._sensorsService);
+               return new DeviceIncreaseWaterLevel(this._dataRepository);
             }
             else if (FieldExists("MinusWaterFlow", jObject))
             {
-                return  new DeviceDecreaseWaterFlow(this._sensorsService);
+                return  new DeviceDecreaseWaterFlow(this._dataRepository);
             }
             else if(FieldExists("PlusWaterFlow", jObject))
             {
-                return  new DeviceIncreaseWaterFlow(this._sensorsService);
+                return  new DeviceIncreaseWaterFlow(this._dataRepository);
+            }
+            else if (FieldExists("Reset", jObject))
+            {
+                return new DeviceResetCommand(this._dataRepository);
             }
 
             return new BaseCommand();

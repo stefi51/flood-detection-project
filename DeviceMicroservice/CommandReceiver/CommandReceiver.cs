@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Reflection;
+using DeviceMicroservice.Repositories;
 using SharedModels;
 
 namespace DeviceMicroservice.CommandReceiver
@@ -23,16 +24,16 @@ namespace DeviceMicroservice.CommandReceiver
         private readonly string _username;
         private readonly string _password;
         private readonly int _port;
-        private readonly Sensors _sensorsService;
+        private readonly IDataRepository _dataRepository;
 
-        public CommandReceiver(Sensors sensorsService, IOptions<RabbitMQConfiguration> rabbitMqOptions)
+        public CommandReceiver(IDataRepository dataRepository, IOptions<RabbitMQConfiguration> rabbitMqOptions)
         {
             _hostname = rabbitMqOptions.Value.Hostname;
             _queueName = rabbitMqOptions.Value.QueueName;
             _username = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
             _port = rabbitMqOptions.Value.Port;
-            _sensorsService = sensorsService;
+            _dataRepository = dataRepository;
             InitializeRabbitMqListener();
         }
 
@@ -66,7 +67,7 @@ namespace DeviceMicroservice.CommandReceiver
             consumer.Received += (ch, ea) =>
             {
                 var content = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var newCommand = JsonConvert.DeserializeObject<ICommand>(content, new CommandConverter(_sensorsService));
+                var newCommand = JsonConvert.DeserializeObject<ICommand>(content, new CommandConverter(_dataRepository));
                 newCommand.Run();
                 _channel.BasicAck(ea.DeliveryTag, false);
             };

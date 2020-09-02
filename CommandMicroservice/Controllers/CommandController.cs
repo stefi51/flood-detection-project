@@ -2,6 +2,7 @@
 using CommandMicroservice.CommandSender;
 using Microsoft.AspNetCore.Mvc;
 using SharedModels;
+using SharedModels.Commands;
 
 namespace CommandMicroservice.Controllers
 {
@@ -39,6 +40,13 @@ namespace CommandMicroservice.Controllers
         [HttpPost("decreasewaterflow")]
         public ActionResult DecreaseWaterFlow(DecreaseWaterFlow command)
         {
+            sender.SendCommand(command);
+            return Ok();
+        }
+        [HttpPost("resetcommands")]
+        public ActionResult ResetCommands(ResetCommand command)
+        {
+            command.Reset = true;
             sender.SendCommand(command);
             return Ok();
         }

@@ -1,0 +1,19 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>Device service</mat-card-title>
+	</mat-card-header>
+	<div class="container">
+		<form [formGroup]="deviceServiceFormGroup">
+			<div>
+				<mat-form-field>
+					<mat-label>Timestep</mat-label>
+					<input matInput formControlName="timestep">
+				</mat-form-field>
+			</div>
+		</form>
+		<div>
+			<button mat-raised-button color="primary" (click)="submitData()">Submit</button>
+			<button mat-raised-button color="warn" (click)="showMetrics()">Show metrics</button>
+		</div>
+	</div>
+</mat-card>

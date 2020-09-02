@@ -24,8 +24,6 @@
 		<tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
 	</table>
-
-
 </div>
 
 <div class="container" *ngIf="type === 'command' && items">
@@ -55,7 +53,6 @@
 		<tr mat-header-row *matHeaderRowDef="commandColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: commandColumns;"></tr>
 	</table>
-
 </div>
 
 <div class="container" *ngIf="type === 'analytics' && items">
@@ -94,6 +91,8 @@
 		<tr mat-header-row *matHeaderRowDef="analyticsColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: analyticsColumns;"></tr>
 	</table>
+</div>
 
-
+<div class="container" *ngIf="type === 'device' && items">
+	<p>{{items | json}}</p>
 </div>

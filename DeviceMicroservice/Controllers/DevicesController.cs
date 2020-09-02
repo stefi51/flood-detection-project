@@ -27,7 +27,7 @@ namespace DeviceMicroservice.Controllers
    
 
 
-        [HttpGet("")]
+        [HttpGet("getlivedata")]
         public ActionResult<LiveMetaData> GetLiveData()
         {
 
@@ -36,11 +36,11 @@ namespace DeviceMicroservice.Controllers
         }
         
         
-        [HttpPost("SetPeriodTime")]
+        [HttpPost("setperiodtime")]
       
-        public ActionResult SetPeriodTime([FromBody]int newTimeStep)
+        public ActionResult SetPeriodTime([FromBody]TimestepValue newTimeStep)
         {
-            this.sensorsService.ChangeTimeStep(newTimeStep);
+            this.sensorsService.ChangeTimeStep(newTimeStep.Timestep);
             return Ok();
         }
         
@@ -54,4 +54,9 @@ namespace DeviceMicroservice.Controllers
        
 
     }
+}
+
+public class TimestepValue 
+{
+	public int Timestep { get; set; }
 }

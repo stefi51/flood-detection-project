@@ -53,6 +53,18 @@
       "destination": {
         "path": "http://analyticsmicroservice:80/api/analytics/getdata"
       }
+    },
+    {
+      "endpoint": "/getlivedata",
+      "destination": {
+        "path": "http://devicemicroservice:80/api/devices/getlivedata"
+      }
+    },
+    {
+      "endpoint": "/setperiodtime",
+      "destination": {
+        "path": "http://devicemicroservice:80/api/devices/setperiodtime"
+      }
     }
   ]
 }

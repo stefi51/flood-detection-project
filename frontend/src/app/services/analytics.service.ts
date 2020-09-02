@@ -16,7 +16,7 @@ export class AnalyticsService {
 
 	constructor(private http: HttpClient) {
 		this._hubConnection = new signalR.HubConnectionBuilder()
-			.withUrl("http://localhost:5000/signalServer")
+			.withUrl("http://localhost:4000/notificationservice")
 			.build();
 
 		this._hubConnection

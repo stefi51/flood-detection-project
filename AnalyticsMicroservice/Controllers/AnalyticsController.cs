@@ -14,10 +14,10 @@ namespace AnalyticsMicroservice.Controllers
     public class AnalyticsController : ControllerBase
     {
         private IRefinedDataRepository repository { get; set; }
-        private IHubContext<SignalServer> hub { get; set; }
+        private IHubContext<NotificationService> hub { get; set; }
 
 
-        public AnalyticsController(IRefinedDataRepository dataRepository, IHubContext<SignalServer> hub)
+        public AnalyticsController(IRefinedDataRepository dataRepository, IHubContext<NotificationService> hub)
         {
             this.repository = dataRepository;
             this.hub = hub;
@@ -31,7 +31,7 @@ namespace AnalyticsMicroservice.Controllers
         [HttpPost("")]
         public ActionResult PostData2([FromBody]SensorData k)
         {
-            //this.hub.Clients.All.SendAsync("refinedDataUpdate", k);
+            this.hub.Clients.All.SendAsync("refinedDataUpdate", k);
             return Ok();
         }
 

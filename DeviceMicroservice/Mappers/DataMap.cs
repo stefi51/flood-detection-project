@@ -11,8 +11,8 @@ namespace DeviceMicroservice.Mappers
         public DataMap()
         {
             Map(x => x.Rainfall).Name("rainfall");
-            Map(x => x.WaterFlow).Name("water level");
-            Map(x => x.WaterLevel).Name("flow water");
+            Map(x => x.WaterFlow).Name("flow water");
+            Map(x => x.WaterLevel).Name("water level");
             Map(x => x.StationId).ConvertUsing(row => (int) row.GetField<float>("stationId"));
             Map(x => x.MeasuredDateTime).Name("dateTime");
 

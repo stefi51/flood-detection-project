@@ -22,36 +22,75 @@ namespace AnalyticsMicroservice.AServices
             this.hub = hub;
             _httpClient = new HttpClient();
         }
-        
+
         public void ProcessNewData(SensorData newSData)
         {
-            if (newSData.Rainfall > 0.1)
-            {
-                RefinedData newRefinedData= new RefinedData(newSData.WaterFlow,newSData.WaterLevel,
-                    newSData.Rainfall,newSData.StationId,newSData.MeasuredDateTime,DateTime.Now, EventType.Warning);
-                this.refinedDataRepository.InsertData(newRefinedData);
+            /*            if (newSData.Rainfall > 0.1)
+                        {
+                            RefinedData newRefinedData= new RefinedData(newSData.WaterFlow,newSData.WaterLevel,
+                                newSData.Rainfall,newSData.StationId,newSData.MeasuredDateTime,DateTime.Now, EventType.Warning);
+                            this.refinedDataRepository.InsertData(newRefinedData);
 
-                this.hub.Clients.All.SendAsync("refinedDataUpdate", newSData);
-                // this.hub.Clients.All.SendAsync("refinedDataUpdate", newSData);
-                //  this.DecreaseWaterFlow(newSData);
-                //this.IncreaseWaterFlow(newSData);
-                //  this.IncreaseWaterLevel(newSData);
-                // this.DecreaseWaterLevel(newSData);
+                            this.hub.Clients.All.SendAsync("refinedDataUpdate", newSData);
+                            // this.hub.Clients.All.SendAsync("refinedDataUpdate", newSData);
+                            //  this.DecreaseWaterFlow(newSData);
+                            //this.IncreaseWaterFlow(newSData);
+                            //  this.IncreaseWaterLevel(newSData);
+                            // this.DecreaseWaterLevel(newSData);
+
+                        }*/
+            RefinedData newRefinedData = new RefinedData()
+            {
+                AnalyzedDataTime = DateTime.Now,
+                StationId = newSData.StationId,
+                MeasuredDateTime = newSData.MeasuredDateTime,
+                Rainfall = newSData.Rainfall,
+                WaterFlow = newSData.WaterFlow,
+                WaterLevel = newSData.WaterLevel
+            };
+            if (newRefinedData.Rainfall > 1.4 && newRefinedData.WaterLevel >5.70 && newRefinedData.WaterFlow < 0.80 )
+            {
+                newRefinedData.AnalyzedEventType = EventType.Alarm;
+                this.refinedDataRepository.InsertData(newRefinedData);
+                this.hub.Clients.All.SendAsync("refinedDataUpdate", newRefinedData);
+                this.DecreaseWaterLevel(newRefinedData.StationId,10);
+                this.IncreaseWaterFlow(newRefinedData.StationId,10);
+                return;
             }
+            else
+            {
+                if (newRefinedData.WaterLevel > 5.815&& newRefinedData.WaterFlow> 0.8)
+                {
+                    newRefinedData.AnalyzedEventType = EventType.Warning;
+                    this.refinedDataRepository.InsertData(newRefinedData);
+                    this.hub.Clients.All.SendAsync("refinedDataUpdate", newRefinedData);
+                    this.DecreaseWaterLevel(newRefinedData.StationId, 0.5);
+                    this.IncreaseWaterFlow(newRefinedData.StationId, 0.5);
+                }
+                else if(newRefinedData.WaterFlow<0.6)
+                {
+                    newRefinedData.AnalyzedEventType = EventType.Warning;
+                    this.refinedDataRepository.InsertData(newRefinedData);
+                    this.hub.Clients.All.SendAsync("refinedDataUpdate", newRefinedData);
+                    this.IncreaseWaterFlow(newRefinedData.StationId, 0.5);
+                }
+            }
+            
+
 
         }
-        protected async void DecreaseWaterLevel(SensorData payload)
+        protected async void DecreaseWaterLevel(int stationId, double minusWaterFlow)
         {
             string strPayload = JsonConvert.SerializeObject(new DecreaseWaterLevel()
             {
                 Name = "Decrease",
-                MinusWaterLevel= 10.5,
-                StationId = 10
+                MinusWaterLevel = minusWaterFlow,
+                StationId = stationId
             });
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/decreasewaterlevel", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:65452/api/Command/decreasewaterlevel", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);
@@ -61,18 +100,18 @@ namespace AnalyticsMicroservice.AServices
                 Console.WriteLine(e);
             }
         }
-        protected async void IncreaseWaterLevel(SensorData payload)
+        protected async void IncreaseWaterLevel(int stationId, double plusWaterLevel)
         {
             string strPayload = JsonConvert.SerializeObject(new IncreaseWaterLevel()
             {
                 Name = "Decrease",
-                PlusWaterLevel = 10.5,
-                StationId = 10
+                PlusWaterLevel = plusWaterLevel,
+                StationId = stationId
             });
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/increasewaterlevel", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:65452/api/Command/increasewaterlevel", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);
@@ -82,18 +121,18 @@ namespace AnalyticsMicroservice.AServices
                 Console.WriteLine(e);
             }
         }
-        protected async void IncreaseWaterFlow(SensorData payload)
+        protected async void IncreaseWaterFlow(int stationId, double plusWaterFlow)
         {
             string strPayload = JsonConvert.SerializeObject(new IncreaseWaterFlow()
             {
                 Name = "Decrease",
-                PlusWaterFlow = 10.5,
-                StationId = 10
+                PlusWaterFlow = plusWaterFlow,
+                StationId = stationId
             });
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/increasewaterflow", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:65452/api/Command/increasewaterflow", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);
@@ -104,18 +143,18 @@ namespace AnalyticsMicroservice.AServices
             }
         }
 
-        protected async void DecreaseWaterFlow(SensorData payload)
+        protected async void DecreaseWaterFlow(int stationId, double minusWaterFlow)
         {
             string strPayload = JsonConvert.SerializeObject(new DecreaseWaterFlow()
             {
                 Name = "Decrease",
-                MinusWaterFlow = 10.0,
-                StationId = 10
+                MinusWaterFlow = minusWaterFlow,
+                StationId = stationId
             });
             HttpContent c = new StringContent(strPayload, Encoding.UTF8, "application/json");
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:6001/api/Command/decreasewaterflow", c);
+                HttpResponseMessage response = await _httpClient.PostAsync("http://localhost:65452/api/Command/decreasewaterflow", c);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseBody);
@@ -124,7 +163,7 @@ namespace AnalyticsMicroservice.AServices
             {
                 Console.WriteLine(e);
             }
-            
+
         }
     }
 }

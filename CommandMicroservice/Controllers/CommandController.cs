@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using CommandMicroservice.CommandSender;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using SharedModels;
 using SharedModels.Commands;
 
@@ -15,7 +17,57 @@ namespace CommandMicroservice.Controllers
         {
             this.sender = sender;
         }
-        
+
+        [HttpGet("")]
+        public JsonResult GetCommands()
+        {
+            return new JsonResult(
+                new
+                {
+                    Name= "Commands",
+                    CommandList=new List<object>()
+                    {
+                        new
+                        {
+                            commandName="Decrease water level",
+                            endpoint="",
+                            rest="Post",
+                            command=new DecreaseWaterLevel(){Name = "Decrease water level"}
+                        },
+                        new
+                        {
+                            commandName="Increase water level",
+                            endpoint="",
+                            rest="Post",
+                            command=new IncreaseWaterLevel(){Name = "Increase water level"}
+                        },
+                        new
+                        {
+                            commandName="Increase water flow",
+                            endpoint="",
+                            rest="Post",
+                            command=new IncreaseWaterFlow(){Name = "Increase water flow"}
+
+                        },
+                        new
+                        {
+                            commandName="Decrease water flow",
+                            endpoint="",
+                            rest="Post",
+                            command=new DecreaseWaterFlow(){Name = "Decrease water flow"}
+                        },
+                        new
+                        {
+                            commandName="Reset water flow and water level",
+                            endpoint="",
+                            rest="Post",
+                            command=new ResetCommand(){Name = "Reset"}
+                        },
+
+                    }
+                });
+        }
+
         [HttpPost("decreasewaterlevel")]
         public ActionResult DecreaseWaterLevel(DecreaseWaterLevel command)
         {

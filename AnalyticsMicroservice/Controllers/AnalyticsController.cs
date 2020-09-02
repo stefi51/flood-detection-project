@@ -23,7 +23,7 @@ namespace AnalyticsMicroservice.Controllers
             this.hub = hub;
         }
 
-        [HttpGet("")]
+        [HttpGet("getdata")]
         public ActionResult<IEnumerable<RefinedData>> GetData()
         {
             return this.repository.GetAll();

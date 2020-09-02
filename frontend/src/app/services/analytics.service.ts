@@ -43,6 +43,6 @@ export class AnalyticsService {
 	}
 
 	get(): Observable<any> {
-		return this.http.get("dummy");
+		return this.http.get("http://localhost:5001/getrefineddata");
 	}
 }

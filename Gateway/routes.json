@@ -47,6 +47,12 @@
       "destination": {
         "path": "http://analyticsmicroservice:80/api/analytics/postdata2"
       }
+    },
+    {
+      "endpoint": "/getrefineddata",
+      "destination": {
+        "path": "http://analyticsmicroservice:80/api/analytics/getdata"
+      }
     }
   ]
 }

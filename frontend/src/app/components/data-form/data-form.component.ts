@@ -12,13 +12,17 @@ export class DataFormComponent implements OnInit {
 	type: string;
 	dataColumns: string[] = ['Water level', 'Water flow', 'Rainfall', 'Measured time'];
 	commandColumns: string[] = ['Command name', 'Endpoint', 'Rest', 'Gateway'];
+	analyticsColumns: string[] = ['Water level', 'Water flow', 'Rainfall', 'Measured time', 'Analyzed time', 'Event type'];
 
 	constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
 		this.items = data.items;
 		this.type = data.type;
-	 }
+	}
 
 	ngOnInit(): void {
 	}
 
+	getEventName(data: number): string {
+		return data === 0 ? 'Warn' : 'Alarm';
+	}
 }

@@ -22,7 +22,7 @@ namespace AnalyticsMicroservice.Controllers
             this.analyticsService = analyticsService;
         }
 
-        [HttpGet("")]
+        [HttpGet("getdata")]
         public ActionResult<IEnumerable<RefinedData>> GetData()
         {
             return this.repository.GetAll();

@@ -25,6 +25,8 @@ import { NotificationListComponent } from './components/notification-list/notifi
 import { CommandServiceComponent } from './components/control-panel/command-service/command-service.component';
 import { AnalyticsServiceComponent } from './components/control-panel/analytics-service/analytics-service.component';
 import { RawDataComponent } from './components/raw-data/raw-data.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { DeviceComponent } from './components/control-panel/device/device.component';
 
 @NgModule({
 	declarations: [
@@ -37,7 +39,9 @@ import { RawDataComponent } from './components/raw-data/raw-data.component';
 		CommandServiceComponent,
 		AnalyticsServiceComponent,
 		DataFormComponent,
-		RawDataComponent
+		RawDataComponent,
+		AlertComponent,
+		DeviceComponent
 	],
 	imports: [
 		BrowserModule,

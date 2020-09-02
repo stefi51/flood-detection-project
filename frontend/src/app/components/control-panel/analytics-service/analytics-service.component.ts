@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { RefinedData } from 'src/app/models/refined-data.model';
 import { AnalyticsService } from 'src/app/services/analytics.service';
+import { DataFormComponent } from '../../data-form/data-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-analytics-service',
@@ -14,7 +16,7 @@ export class AnalyticsServiceComponent implements OnInit {
 
 	analyticsServiceFormGroup: FormGroup;
 
-	constructor(private fb: FormBuilder, private analyticsService: AnalyticsService) { }
+	constructor(private fb: FormBuilder, private analyticsService: AnalyticsService, private dialog: MatDialog) { }
 
 	ngOnInit(): void {
 		this.analyticsServiceFormGroup = this.fb.group({
@@ -38,8 +40,13 @@ export class AnalyticsServiceComponent implements OnInit {
 		this.analyticsService.post(rawData).subscribe(x => console.log(x));
 	}
 
-	showRawData() {
-		this.analyticsService.get().subscribe(console.log);
+	showRefinedData() {
+		this.analyticsService.get().subscribe(x => {
+			console.log(x);
+			const dialogRef = this.dialog.open(DataFormComponent, {
+				data: { items: x, type: 'analytics'}
+			});
+		});
 	}
 
 }

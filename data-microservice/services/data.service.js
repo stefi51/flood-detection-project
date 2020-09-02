@@ -48,7 +48,7 @@ module.exports = {
 							time: Date.now()
 						}
 					]);
-					request.post('http://analyticsmicroservice:80/api/analytics/postdata2', {
+					request.post('http://analyticsmicroservice:80/api/analytics/newsensordata', {
 						json: {
 							waterFlow: ctx.params.waterFlow,
 							waterLevel: ctx.params.waterLevel,

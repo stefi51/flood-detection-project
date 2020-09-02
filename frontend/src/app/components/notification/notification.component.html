@@ -1,5 +1,8 @@
 <div>
-	{{data | json}}
+	{{'Water level: ' + data.waterLevel}}
+	{{'Water flow: ' + data.waterFlow}}
+	{{'Rainfall: ' + data.rainfall}}
+	{{'Station id: ' + data.stationId}}
 	<app-command-service [stationId]="data.stationId" (invoked)="invoked = true"></app-command-service>
 </div>
 <div>

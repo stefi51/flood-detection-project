@@ -41,6 +41,12 @@
       "destination": {
         "path": "http://datamicroservice:3000/data"
       }
+    },
+    {
+      "endpoint": "/refineddata",
+      "destination": {
+        "path": "http://analyticsmicroservice:80/api/analytics/postdata2"
+      }
     }
   ]
 }

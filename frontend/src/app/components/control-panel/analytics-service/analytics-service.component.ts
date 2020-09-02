@@ -28,16 +28,14 @@ export class AnalyticsServiceComponent implements OnInit {
 
 	submitTestData() {
 		const rawData: RefinedData = {
-			waterFlow: this.analyticsServiceFormGroup.get("waterFlow").value,
-			waterLevel: this.analyticsServiceFormGroup.get("waterLevel").value,
-			rainfall: this.analyticsServiceFormGroup.get("rainfall").value,
-			stationId: this.analyticsServiceFormGroup.get("stationId").value,
-			measuredDateTime: Date.now(),
-			analyzedDataTime: Date.now(),
+			waterFlow: Number.parseInt(this.analyticsServiceFormGroup.get("waterFlow").value),
+			waterLevel: Number.parseInt(this.analyticsServiceFormGroup.get("waterLevel").value),
+			rainfall: Number.parseInt(this.analyticsServiceFormGroup.get("rainfall").value),
+			stationId: Number.parseInt(this.analyticsServiceFormGroup.get("stationId").value),
 			analyzedEventType: this.analyticsServiceFormGroup.get("eventType").value === "Warn" ? 0 : 1
 		}
 		console.log(rawData);
-		this.analyticsService.post("dummy").subscribe(console.log);
+		this.analyticsService.post(rawData).subscribe(x => console.log(x));
 	}
 
 	showRawData() {

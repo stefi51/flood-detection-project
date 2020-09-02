@@ -39,7 +39,7 @@ export class AnalyticsService {
 	}
 
 	post(data): Observable<any> {
-		return this.http.post("dummy", data);
+		return this.http.post("http://localhost:5001/refineddata", data);
 	}
 
 	get(): Observable<any> {

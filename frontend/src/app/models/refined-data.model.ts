@@ -3,8 +3,8 @@ export class RefinedData {
 	waterLevel: number;
 	rainfall: number;
 	stationId: number;
-	measuredDateTime: any;
-	analyzedDataTime: any;
+	measuredDateTime?: any;
+	analyzedDataTime?: any;
 	analyzedEventType: EventType;
 }
 

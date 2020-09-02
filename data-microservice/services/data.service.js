@@ -1,6 +1,7 @@
 "use strict";
 
 const Influx = require('influx');
+const request = require('request');
 
 module.exports = {
 	name: "data",
@@ -47,7 +48,22 @@ module.exports = {
 							time: Date.now()
 						}
 					]);
-
+					request.post('http://analyticsmicroservice:80/api/analytics/postdata2', {
+						json: {
+							waterFlow: ctx.params.waterFlow,
+							waterLevel: ctx.params.waterLevel,
+							rainfall: ctx.params.rainfall,
+							stationId: ctx.params.stationId,
+							measuredDateTime: ctx.params.measuredDateTime
+						}
+					}, (error, res, body) => {
+						if (error) {
+							console.error(error)
+							return
+						}
+						console.log(`statusCode: ${res.statusCode}`)
+						console.log(body)
+					})
 				}
 				catch (err) {
 					console.log(err);

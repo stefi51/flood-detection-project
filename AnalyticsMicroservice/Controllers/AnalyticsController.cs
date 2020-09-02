@@ -28,10 +28,11 @@ namespace AnalyticsMicroservice.Controllers
         {
             return this.repository.GetAll();
         }
-        [HttpPost("")]
+        [HttpPost("postdata2")]
         public ActionResult PostData2([FromBody]SensorData k)
         {
-            this.hub.Clients.All.SendAsync("refinedDataUpdate", k);
+			if (k.Rainfall > 0.1 && k.WaterLevel > 5)
+				this.hub.Clients.All.SendAsync("refinedDataUpdate", k);
             return Ok();
         }
 

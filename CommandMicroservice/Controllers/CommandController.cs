@@ -18,54 +18,53 @@ namespace CommandMicroservice.Controllers
             this.sender = sender;
         }
 
-        [HttpGet("")]
-        public JsonResult GetCommands()
+        [HttpGet("getcommands")]
+        public ActionResult<List<APIInfo>> GetCommands()
         {
-            return new JsonResult(
-                new
-                {
-                    Name= "Commands",
-                    CommandList=new List<object>()
-                    {
-                        new
-                        {
-                            commandName="Decrease water level",
-                            endpoint="",
-                            rest="Post",
-                            command=new DecreaseWaterLevel(){Name = "Decrease water level"}
-                        },
-                        new
-                        {
-                            commandName="Increase water level",
-                            endpoint="",
-                            rest="Post",
-                            command=new IncreaseWaterLevel(){Name = "Increase water level"}
-                        },
-                        new
-                        {
-                            commandName="Increase water flow",
-                            endpoint="",
-                            rest="Post",
-                            command=new IncreaseWaterFlow(){Name = "Increase water flow"}
-
-                        },
-                        new
-                        {
-                            commandName="Decrease water flow",
-                            endpoint="",
-                            rest="Post",
-                            command=new DecreaseWaterFlow(){Name = "Decrease water flow"}
-                        },
-                        new
-                        {
-                            commandName="Reset water flow and water level",
-                            endpoint="",
-                            rest="Post",
-                            command=new ResetCommand(){Name = "Reset"}
-                        },
-
-                    }
-                });
+			var toReturn = new List<APIInfo>()
+			{
+				new APIInfo()
+				{
+					CommandName="Decrease water level",
+					Endpoint="http://commandmicroservice:80/api/command/decreasewaterlevel",
+					Rest="Post",
+					Gateway="/decreasewaterlevel",
+					Command=new DecreaseWaterLevel(){Name = "Decrease water level"}
+				},
+				new APIInfo()
+				{
+					CommandName="Increase water level",
+					Endpoint="http://commandmicroservice:80/api/command/increasewaterlevel",
+					Rest="Post",
+					Gateway="/increasewaterlevel",
+					Command=new IncreaseWaterLevel(){Name = "Increase water level"}
+				},
+				new APIInfo()
+				{
+					CommandName="Increase water flow",
+					Endpoint="http://commandmicroservice:80/api/command/increasewaterflow",
+					Rest="Post",
+					Gateway="/increasewaterflow",
+					Command=new IncreaseWaterFlow(){Name = "Increase water flow"}
+				},
+				new APIInfo()
+				{
+					CommandName="Decrease water flow",
+					Endpoint="http://commandmicroservice:80/api/command/decreasewaterflow",
+					Rest="Post",
+					Gateway="/decreasewaterflow",
+					Command=new DecreaseWaterFlow(){Name = "Decrease water flow"}
+				},
+				new APIInfo()
+				{
+					CommandName="Reset water flow and water level",
+					Endpoint="http://commandmicroservice:80/api/command/resetcommands",
+					Rest="Post",
+					Gateway="/reset",
+					Command=new ResetCommand(){Name = "Reset"}
+				}
+			};
+			return toReturn;
         }
 
         [HttpPost("decreasewaterlevel")]

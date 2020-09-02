@@ -18,7 +18,7 @@ export class RawDataComponent implements OnInit {
 	ngOnInit(): void {
 		setInterval( () => this.dataService.get().subscribe(x => {
 			this.data = x.map(y => [new Date(y.measuredDateTime).toLocaleDateString('en-US', this.options), y.rainfall, y.waterLevel, y.waterFlow]);
-		}), 5000);
+		}), 10000);
 	}
 
 }

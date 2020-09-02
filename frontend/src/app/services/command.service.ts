@@ -14,6 +14,6 @@ export class CommandService {
 	}
 
 	get(): Observable<any> {
-		return this.http.get("dummy");
+		return this.http.get<any>("http://localhost:5001/getcommands");
 	}
 }

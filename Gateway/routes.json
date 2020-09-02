@@ -25,6 +25,18 @@
       }
     },
     {
+      "endpoint": "/getcommands",
+      "destination": {
+        "path": "http://commandmicroservice:80/api/command/getcommands"
+      }
+    },
+    {
+      "endpoint": "/reset",
+      "destination": {
+        "path": "http://commandmicroservice:80/api/command/resetcommands"
+      }
+    },
+    {
       "endpoint": "/raw-data",
       "destination": {
         "path": "http://datamicroservice:3000/data"

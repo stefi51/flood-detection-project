@@ -10,7 +10,8 @@ export class DataFormComponent implements OnInit {
 
 	items: any;
 	type: string;
-	displayedColumns: string[] = ['Water level', 'Water flow', 'Rainfall', 'Measured time'];
+	dataColumns: string[] = ['Water level', 'Water flow', 'Rainfall', 'Measured time'];
+	commandColumns: string[] = ['Command name', 'Endpoint', 'Rest', 'Gateway'];
 
 	constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
 		this.items = data.items;

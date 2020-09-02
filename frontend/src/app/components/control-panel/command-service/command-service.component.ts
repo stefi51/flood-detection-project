@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { CommandService } from 'src/app/services/command.service';
 import { Command } from 'src/app/models/command.model';
+import { MatDialog } from '@angular/material/dialog';
+import { DataFormComponent } from '../../data-form/data-form.component';
 
 @Component({
 	selector: 'app-command-service',
@@ -15,7 +17,7 @@ export class CommandServiceComponent implements OnInit {
 
 	commandServiceFormGroup: FormGroup;
 
-	constructor(private fb: FormBuilder, private commandService: CommandService) { }
+	constructor(private fb: FormBuilder, private commandService: CommandService, private dialog: MatDialog) { }
 
 	ngOnInit(): void {
 		this.commandServiceFormGroup = this.fb.group({
@@ -37,7 +39,25 @@ export class CommandServiceComponent implements OnInit {
 
 		const path: string = `${this.commandServiceFormGroup.get("value").value === "plus" ? "increase": "decrease"}water${this.commandServiceFormGroup.get("commandType").value}`;
 		console.log(path.toLowerCase());
-		this.commandService.post(commandData, path.toLowerCase()).subscribe(console.log);
+		this.commandService.post(commandData, path.toLowerCase()).subscribe();
 		this.invoked.emit(true);
+	}
+
+	getCommands() {
+		this.commandService.get().subscribe(x => {
+			const dialogRef = this.dialog.open(DataFormComponent, {
+				data: { items: x, type: 'command'}
+			});
+		});
+	}
+
+	reset() {
+		const dynamicPropertyName: string = "reset";
+		const commandData: Command = {
+			name: "Reset",
+			stationId: Number.parseInt(this.commandServiceFormGroup.get("stationId").value),
+			[dynamicPropertyName]: true
+		}
+		this.commandService.post(commandData, "reset").subscribe(x => console.log(x));
 	}
 }

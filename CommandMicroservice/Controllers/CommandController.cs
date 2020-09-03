@@ -29,7 +29,7 @@ namespace CommandMicroservice.Controllers
 					Endpoint="http://commandmicroservice:80/api/command/decreasewaterlevel",
 					Rest="Post",
 					Gateway="/decreasewaterlevel",
-					Command=new DecreaseWaterLevel(){Name = "Decrease water level"}
+					Parameters= new DecreaseWaterLevel(){Name = "Decrease water level",MinusWaterLevel = 1.0, StationId = 1}
 				},
 				new APIInfo()
 				{
@@ -37,7 +37,7 @@ namespace CommandMicroservice.Controllers
 					Endpoint="http://commandmicroservice:80/api/command/increasewaterlevel",
 					Rest="Post",
 					Gateway="/increasewaterlevel",
-					Command=new IncreaseWaterLevel(){Name = "Increase water level"}
+					Parameters= new IncreaseWaterLevel(){Name = "Increase water level",PlusWaterLevel = 1.0, StationId = 1}
 				},
 				new APIInfo()
 				{
@@ -45,7 +45,7 @@ namespace CommandMicroservice.Controllers
 					Endpoint="http://commandmicroservice:80/api/command/increasewaterflow",
 					Rest="Post",
 					Gateway="/increasewaterflow",
-					Command=new IncreaseWaterFlow(){Name = "Increase water flow"}
+					Parameters= new IncreaseWaterFlow(){Name = "Increase water flow", PlusWaterFlow = 1.0, StationId = 1}
 				},
 				new APIInfo()
 				{
@@ -53,7 +53,7 @@ namespace CommandMicroservice.Controllers
 					Endpoint="http://commandmicroservice:80/api/command/decreasewaterflow",
 					Rest="Post",
 					Gateway="/decreasewaterflow",
-					Command=new DecreaseWaterFlow(){Name = "Decrease water flow"}
+					Parameters= new DecreaseWaterFlow(){Name = "Decrease water flow", MinusWaterFlow = 1.0, StationId = 1}
 				},
 				new APIInfo()
 				{
@@ -61,7 +61,7 @@ namespace CommandMicroservice.Controllers
 					Endpoint="http://commandmicroservice:80/api/command/resetcommands",
 					Rest="Post",
 					Gateway="/reset",
-					Command=new ResetCommand(){Name = "Reset"}
+					Parameters= new ResetCommand(){Name = "Reset",Reset=true, StationId = 1}
 				}
 			};
 			return toReturn;

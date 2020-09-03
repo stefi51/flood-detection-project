@@ -10,6 +10,7 @@ namespace DeviceMicroservice.Models
         public DateTime Threshold { get; set; }
         public  double waterlevel { get; set; }
         public  double waterflow { get; set; }
+        public  double rainfall { get; set; }
         public LiveMetaData(int stationId, int timeStep, DateTime threshold)
         {
             StationId = stationId;

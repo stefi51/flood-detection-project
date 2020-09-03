@@ -7,7 +7,7 @@ namespace CommandMicroservice
 		public string CommandName { get; set; }
 		public string Endpoint { get; set; }
 		public string Rest { get; set; }
-		public ICommand Command { get; set; }
+		public object Parameters { get; set; }
 		public string Gateway { get; set; }
 	}
 }

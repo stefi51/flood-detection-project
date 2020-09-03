@@ -66,10 +66,9 @@ namespace DeviceMicroservice
                         currentData.StationId = sensorData.StationId;
                         currentData.Threshold = DateTime.Now.Add(new System.TimeSpan(0, 0, 0, timeStep));
                         SensorData changedSensorData= ChangeSensorData(sensorData);
-                        //ovo je radi testa
                         currentData.waterflow = changedSensorData.WaterFlow;
                         currentData.waterlevel = changedSensorData.WaterLevel;
-                        //
+                        currentData.rainfall = changedSensorData.Rainfall;
                         sensorDataPublisher.SendData(changedSensorData);
                        // SendRestData(changedSensorData);
                         await Task.Delay(TimeSpan.FromSeconds(timeStep), cancelToken);

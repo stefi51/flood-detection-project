@@ -5,7 +5,7 @@
 	"main": "device-listener.js",
 	"dependencies": {
 		"amqplib": "^0.5.6",
-		"express": "^4.17.1",
+		"express": "^4.17.3",
 		"influx": "^5.5.1",
 		"moleculer": "^0.14.7",
 		"moleculer-amqp-queue": "^0.0.1",
